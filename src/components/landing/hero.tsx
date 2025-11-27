@@ -5,37 +5,46 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <section className="hero-section">
+      {/* Background Image */}
+      <div className="hero-background">
+        <Image
+          src="/hero-section.png"
+          alt="Hero background"
+          fill
+          priority
+          quality={90}
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+
+      {/* Overlay */}
+      <div className="hero-overlay"></div>
+
+      {/* Content */}
       <div className="container">
         <div className="hero-content">
           {/* Left Content */}
-          <div className="flex-1">
-            <h1 className="heading-2 mb-4">
+          <div className="hero-text-content">
+            <h1 className="heading-2">
               Manage Service Projects with
               <br />
               <span className="text-primary">Kaarya</span>
             </h1>
-            <p className="body-large text-neutral-600 mb-8">
+
+            <p className="body-large text-neutral-600">
               Complete service management solution to manage sites, resources,
               finances, and parties all in one powerful platform.
             </p>
 
             {/* Buttons */}
-            <div className="flex gap-4">
+            <div className="hero-buttons">
               <button className="btn-primary">Download App</button>
               <button className="btn-secondary">Learn more</button>
             </div>
           </div>
 
-          {/* Right Content - Image */}
-          <div className="flex-1">
-            <Image
-              src="/hero-section.png"
-              alt="Service professionals reviewing plans"
-              width={1110}
-              height={900}
-              className="w-full h-auto rounded-2xl"
-            />
-          </div>
+          {/* Right Content - Empty space for background to show */}
+          <div></div>
         </div>
       </div>
     </section>
