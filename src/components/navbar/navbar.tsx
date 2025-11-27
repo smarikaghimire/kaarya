@@ -7,45 +7,38 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold">
-              <span style={{ color: 'var(--primary-500)' }}>Kaarya</span>
-            </h1>
+            <h1 className="text-2xl font-bold text-primary">Kaarya</h1>
           </div>
 
           {/* Nav Links */}
           <div className="hidden md:flex items-center gap-8">
             <a
               href="#home"
-              className="body-regular"
-              style={{ color: 'var(--neutral-700)' }}
+              className="body-regular text-neutral-700 hover:text-primary transition"
             >
               Home
             </a>
             <a
               href="#about"
-              className="body-regular"
-              style={{ color: 'var(--neutral-700)' }}
+              className="body-regular text-neutral-700 hover:text-primary transition"
             >
               About Us
             </a>
             <a
               href="#features"
-              className="body-regular"
-              style={{ color: 'var(--neutral-700)' }}
+              className="body-regular text-neutral-700 hover:text-primary transition"
             >
               Features
             </a>
             <a
               href="#pricing"
-              className="body-regular"
-              style={{ color: 'var(--neutral-700)' }}
+              className="body-regular text-neutral-700 hover:text-primary transition"
             >
               Pricing
             </a>
             <a
               href="#contact"
-              className="body-regular"
-              style={{ color: 'var(--neutral-700)' }}
+              className="body-regular text-neutral-700 hover:text-primary transition"
             >
               Contact Us
             </a>

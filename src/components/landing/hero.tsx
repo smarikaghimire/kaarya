@@ -1,33 +1,20 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function Hero() {
   return (
-    <section
-      className="py-24"
-      style={{
-        backgroundImage: 'url(/hero-section.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <section className="hero-section">
       <div className="container">
-        <div
-          className="flex gap-12 items-center"
-          style={{
-            width: '1253px',
-            height: '355px',
-            marginTop: '135px',
-            marginLeft: '93.5px',
-          }}
-        >
+        <div className="hero-content">
           {/* Left Content */}
           <div className="flex-1">
             <h1 className="heading-2 mb-4">
               Manage Service Projects with
               <br />
-              <span style={{ color: 'var(--primary-500)' }}>Kaarya</span>
+              <span className="text-primary">Kaarya</span>
             </h1>
-            <p className="body-large mb-8" style={{ color: 'var(--neutral-600)' }}>
+            <p className="body-large text-neutral-600 mb-8">
               Complete service management solution to manage sites, resources,
               finances, and parties all in one powerful platform.
             </p>
@@ -41,9 +28,11 @@ export default function Hero() {
 
           {/* Right Content - Image */}
           <div className="flex-1">
-            <img
+            <Image
               src="/hero-image.png"
               alt="Service professionals reviewing plans"
+              width={600}
+              height={400}
               className="w-full h-auto rounded-2xl"
             />
           </div>

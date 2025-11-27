@@ -2,19 +2,12 @@
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        backgroundColor: 'var(--secondary-600)',
-        color: 'var(--neutral-0)',
-      }}
-    >
+    <footer className="bg-secondary-600 text-neutral-0 mt-auto">
       <div className="container py-16">
         <div className="grid grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--neutral-0)' }}>
-              Kaarya
-            </h2>
+            <h2 className="text-2xl font-bold mb-6">Kaarya</h2>
             <div className="flex gap-4">
               <a href="#" className="hover:opacity-80 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -123,10 +116,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div
-          className="border-t pt-8 flex justify-between items-center"
-          style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
-        >
+        <div className="border-t border-opacity-10 border-neutral-0 pt-8 flex justify-between items-center">
           <p className="body-small">Copyright @2025 - Taikosoft</p>
           <div className="flex items-center gap-4">
             <span className="body-small">Powered By:</span>
