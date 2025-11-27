@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -29,10 +29,10 @@ export default function Hero() {
           {/* Right Content - Image */}
           <div className="flex-1">
             <Image
-              src="/hero-image.png"
+              src="/hero-section.png"
               alt="Service professionals reviewing plans"
-              width={600}
-              height={400}
+              width={1110}
+              height={900}
               className="w-full h-auto rounded-2xl"
             />
           </div>
