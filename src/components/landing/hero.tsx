@@ -7,7 +7,7 @@ export default function Hero() {
       {/* Background Image */}
       <div className="hero-background">
         <Image
-          src="/hero-section.png"
+          src="/herosection.png"
           alt="Hero background"
           fill
           priority
@@ -42,8 +42,17 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Content - Empty space for background to show */}
-          <div></div>
+          {/* Right Content - Hero Side Image */}
+          <div className="hero-image-container">
+            <Image
+              src="/hero-side.png"
+              alt="Hero side illustration"
+              width={600}
+              height={380}
+              priority
+              quality={90}
+            />
+          </div>
         </div>
       </div>
     </section>
