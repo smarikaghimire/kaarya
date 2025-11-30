@@ -1,6 +1,5 @@
-"use client";
-
 import Image from "next/image";
+import React from "react";
 
 export default function Hero() {
   return (
@@ -8,33 +7,46 @@ export default function Hero() {
       <div className="container">
         <div className="hero-content">
           {/* Left Content */}
-          <div className="flex-1">
-            <h1 className="heading-2 mb-4">
+          <div className="flex-1 max-w-2xl">
+            <h1 className="text-6xl font-bold leading-tight mb-5 text-neutral-900">
               Manage Service Projects with
               <br />
               <span className="text-primary">Kaarya</span>
             </h1>
-            <p className="body-large text-neutral-600 mb-8">
+            <p className="text-lg text-neutral-600 mb-7 leading-relaxed" style={{ color: '#6b7280' }}>
               Complete service management solution to manage sites, resources,
               finances, and parties all in one powerful platform.
             </p>
 
             {/* Buttons */}
-            <div className="flex gap-4">
-              <button className="btn-primary">Download App</button>
-              <button className="btn-secondary">Learn more</button>
+            <div className="flex gap-4 items-center">
+              <button 
+                type="button" 
+                className="btn-primary px-6 py-3 text-base font-medium"
+              >
+                Download App
+              </button>
+              <button 
+                type="button" 
+                className="btn-secondary px-6 py-3 text-base font-medium"
+              >
+                Learn more
+              </button>
             </div>
           </div>
 
-          {/* Right Content - Image */}
-          <div className="flex-1">
-            <Image
-              src="/hero-section.png"
-              alt="Service professionals reviewing plans"
-              width={1110}
-              height={900}
-              className="w-full h-auto rounded-2xl"
-            />
+          {/* Right Content - Side Image */}
+          <div className="flex-1 flex justify-end">
+            <div className="relative max-w-lg">
+              <Image
+                src="/hero-side.png"
+                alt="Service professionals reviewing plans"
+                width={600}
+                height={380}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>
