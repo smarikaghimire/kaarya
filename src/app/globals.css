@@ -412,10 +412,11 @@
 
 .contact-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, 
-    #d4f4e7 0%, 
-    #d4f4e7 40%, 
-    #ffffff 40%, 
+  background: linear-gradient(
+    to bottom,
+    #d4f4e7 0%,
+    #d4f4e7 40%,
+    #ffffff 40%,
     #ffffff 100%
   );
   padding-bottom: 4rem;
@@ -452,7 +453,11 @@
 }
 
 .contact-info-panel {
-  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-600) 0%,
+    var(--primary-700) 100%
+  );
   padding: 3rem 2.5rem;
   position: relative;
   overflow: hidden;
@@ -693,4 +698,28 @@
   .contact-method-card {
     padding: 1.5rem;
   }
+}
+
+.bg-yellow-100 {
+  background-color: #fef3c7;
+}
+
+.text-yellow-800 {
+  color: #92400e;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.border-neutral-200 {
+  border-color: var(--neutral-200);
+}
+
+.text-primary-500 {
+  color: var(--primary-500);
+}
+
+.text-primary-700 {
+  color: var(--primary-700);
 }
