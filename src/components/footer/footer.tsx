@@ -1,10 +1,11 @@
+// src/components/landing/footer.tsx
 'use client';
 
 export default function Footer() {
   return (
-   <footer className="bg-secondary-600 text-neutral-0">
+    <footer className="bg-secondary-600 text-neutral-0">
       <div className="container py-16">
-        <div className="grid grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div>
             <h2 className="text-2xl font-bold mb-6">Kaarya</h2>
@@ -16,12 +17,12 @@ export default function Footer() {
               </a>
               <a href="#" className="hover:opacity-80 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8.29 20v-7.21H5.5V9.25h2.79V7.23c0-2.77 1.693-4.28 4.154-4.28 1.18 0 2.2.088 2.496.127v2.894h-1.714c-1.345 0-1.605.64-1.605 1.575v2.065h3.21l-.418 3.54h-2.792V20" />
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                 </svg>
               </a>
               <a href="#" className="hover:opacity-80 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0m5.894 8.221c.004.106.006.212.006.318 0 3.237-2.463 6.97-6.97 6.97-1.386 0-2.673-.406-3.758-1.104.192.022.387.033.586.033 1.148 0 2.205-.391 3.043-1.048-1.072-.02-1.976-.728-2.288-1.702.15.028.304.043.461.043.223 0 .44-.03.648-.086-1.122-.227-1.966-1.216-1.966-2.404v-.031c.33.184.707.295 1.112.308-.658-.44-1.091-1.19-1.091-2.043 0-.45.121-.871.332-1.233 1.21 1.487 3.018 2.464 5.055 2.568-.042-.18-.064-.366-.064-.556 0-1.346 1.091-2.437 2.437-2.437.701 0 1.335.296 1.78.768.555-.109 1.078-.311 1.548-.589-.182.568-.568 1.045-1.07 1.347.493-.059.962-.19 1.4-.384-.326.485-.738.91-1.213 1.253z" />
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.441 16.892c-2.102.144-6.784.144-8.883 0C5.282 16.736 5.017 15.622 5 12c.017-3.629.285-4.736 2.558-4.892 2.099-.144 6.782-.144 8.883 0C18.718 7.264 18.982 8.378 19 12c-.018 3.629-.285 4.736-2.559 4.892zM10 9.658l4.917 2.338L10 14.342V9.658z" />
                 </svg>
               </a>
               <a href="#" className="hover:opacity-80 transition">
@@ -116,7 +117,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-opacity-10 border-neutral-0 pt-8 flex justify-between items-center">
+        <div className="border-t border-neutral-0 border-opacity-10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="body-small">Copyright @2025 - Taikosoft</p>
           <div className="flex items-center gap-4">
             <span className="body-small">Powered By:</span>
