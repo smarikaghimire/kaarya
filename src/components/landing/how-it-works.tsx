@@ -1,5 +1,7 @@
 'use client';
 
+import { ClipboardList, UserCheck, Handshake } from 'lucide-react';
+
 export default function HowItWorks() {
   return (
     <section className="py-20 bg-neutral-0">
@@ -15,7 +17,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Card 1 */}
           <div className="flex flex-col items-center text-center">
             {/* Number Badge */}
@@ -25,13 +27,7 @@ export default function HowItWorks() {
 
             {/* Icon */}
             <div className="mb-6 flex justify-center">
-              <svg 
-                className="w-12 h-12 text-primary" 
-                fill="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
+              <ClipboardList className="w-12 h-12 text-primary" />
             </div>
 
             {/* Content */}
@@ -54,14 +50,7 @@ export default function HowItWorks() {
 
             {/* Icon */}
             <div className="mb-6 flex justify-center">
-              <svg 
-                className="w-12 h-12 text-primary" 
-                fill="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                <path d="M20 10l-2 2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/>
-              </svg>
+              <UserCheck className="w-12 h-12 text-primary" />
             </div>
 
             {/* Content */}
@@ -84,13 +73,7 @@ export default function HowItWorks() {
 
             {/* Icon */}
             <div className="mb-6 flex justify-center">
-              <svg 
-                className="w-12 h-12 text-primary" 
-                fill="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-              </svg>
+              <Handshake className="w-12 h-12 text-primary" />
             </div>
 
             {/* Content */}

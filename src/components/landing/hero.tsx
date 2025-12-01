@@ -9,7 +9,7 @@ export default function Hero() {
       <style jsx>{`
         .hero-section {
           position: relative;
-          padding: 5rem 0;
+          padding: 7rem 0;
           overflow: hidden;
           background-color: var(--neutral-0);
         }

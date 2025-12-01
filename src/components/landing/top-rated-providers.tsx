@@ -1,5 +1,6 @@
-// src/components/landing/top-rated-providers.tsx
 'use client';
+
+import { MapPin, Star, CheckCircle2 } from 'lucide-react';
 
 export default function TopRatedProviders() {
   const providers = [
@@ -42,6 +43,7 @@ export default function TopRatedProviders() {
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4 text-neutral-800">Top-Rated Providers in Your Area</h2>
+          <p className="body-large text-neutral-600">Connect with verified professionals near you</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
@@ -55,9 +57,7 @@ export default function TopRatedProviders() {
                   {provider.initials}
                 </div>
                 <div className="absolute bottom-0 right-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-neutral-0">
-                  <svg className="w-4 h-4 text-neutral-0" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                  </svg>
+                  <CheckCircle2 className="w-4 h-4 text-neutral-0" />
                 </div>
               </div>
               <h3 className="heading-4 mb-1 text-neutral-800">{provider.name}</h3>
@@ -65,18 +65,14 @@ export default function TopRatedProviders() {
               <div className="flex items-center justify-center gap-2 mb-2">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                    </svg>
+                    <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
                 <span className="font-semibold text-neutral-800">{provider.rating}</span>
               </div>
               <p className="body-small mb-3 text-neutral-600">{provider.reviews} reviews</p>
               <p className="body-small mb-4 flex items-center justify-center gap-1 text-neutral-500">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                </svg>
+                <MapPin className="w-4 h-4" />
                 {provider.distance}
               </p>
               <button className="btn-primary w-full">View Profile</button>

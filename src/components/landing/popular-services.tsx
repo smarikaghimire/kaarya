@@ -1,15 +1,17 @@
 'use client';
 
+import { Zap, Wrench, Snowflake, Hammer, Paintbrush, Trees, Sparkles, HardHat } from 'lucide-react';
+
 export default function PopularServices() {
   const services = [
-    { name: 'Electrical Work', icon: '⚡', providers: 847, color: '#f59e0b' },
-    { name: 'Plumbing', icon: '🔧', providers: 623, color: '#6b7280' },
-    { name: 'HVAC', icon: '❄️', providers: 412, color: '#3b82f6' },
-    { name: 'Carpentry', icon: '🔨', providers: 534, color: '#8b5cf6' },
-    { name: 'Painting', icon: '🎨', providers: 389, color: '#ec4899' },
-    { name: 'Landscaping', icon: '🌳', providers: 456, color: '#10b981' },
-    { name: 'Cleaning', icon: '🧹', providers: 712, color: '#f97316' },
-    { name: 'Handyman', icon: '🔧', providers: 891, color: '#6b7280' },
+    { name: 'Electrical Work', icon: Zap, providers: 847 },
+    { name: 'Plumbing', icon: Wrench, providers: 623 },
+    { name: 'HVAC', icon: Snowflake, providers: 412 },
+    { name: 'Carpentry', icon: Hammer, providers: 534 },
+    { name: 'Painting', icon: Paintbrush, providers: 389 },
+    { name: 'Landscaping', icon: Trees, providers: 456 },
+    { name: 'Cleaning', icon: Sparkles, providers: 712 },
+    { name: 'Handyman', icon: HardHat, providers: 891 },
   ];
 
   return (
@@ -26,28 +28,33 @@ export default function PopularServices() {
         </div>
 
         {/* Services Grid - 4 columns */}
-        <div className="grid grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {services.map((service, index) => (
-            <div
-              key={service.name}
-              className={`bg-neutral-0 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-2 ${
-                index === 0 ? 'border-primary' : 'border-neutral-200'
-              } hover:border-primary`}
-            >
-              {/* Icon */}
-              <div className="text-4xl mb-4">{service.icon}</div>
-              
-              {/* Service Name */}
-              <h3 className="heading-4 text-neutral-800 mb-2">
-                {service.name}
-              </h3>
-              
-              {/* Provider Count */}
-              <p className="body-small text-neutral-600">
-                {service.providers} providers
-              </p>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.name}
+                className={`bg-neutral-0 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-2 ${
+                  index === 0 ? 'border-primary' : 'border-neutral-200'
+                } hover:border-primary`}
+              >
+                {/* Icon */}
+                <div className="flex justify-center mb-4">
+                  <Icon className="w-12 h-12 text-primary" />
+                </div>
+                
+                {/* Service Name */}
+                <h3 className="heading-4 text-neutral-800 mb-2">
+                  {service.name}
+                </h3>
+                
+                {/* Provider Count */}
+                <p className="body-small text-neutral-600">
+                  {service.providers} providers
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
