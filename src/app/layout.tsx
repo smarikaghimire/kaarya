@@ -24,7 +24,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <Navbar />
-        <main>{children}</main>
+        {/* Add padding-top to account for fixed/absolute navbar */}
+        <main className="pt-[80px]">{children}</main>
         <Footer />
       </body>
     </html>
