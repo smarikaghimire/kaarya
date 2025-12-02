@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/navbar/navbar';
 import Footer from '@/components/footer/footer';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const poppins = Poppins({
   subsets: ['latin'],

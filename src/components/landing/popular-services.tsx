@@ -1,62 +1,200 @@
 'use client';
 
-import { Zap, Wrench, Snowflake, Hammer, Paintbrush, Trees, Sparkles, HardHat } from 'lucide-react';
-
 export default function PopularServices() {
-  const services = [
-    { name: 'Electrical Work', icon: Zap, providers: 847 },
-    { name: 'Plumbing', icon: Wrench, providers: 623 },
-    { name: 'HVAC', icon: Snowflake, providers: 412 },
-    { name: 'Carpentry', icon: Hammer, providers: 534 },
-    { name: 'Painting', icon: Paintbrush, providers: 389 },
-    { name: 'Landscaping', icon: Trees, providers: 456 },
-    { name: 'Cleaning', icon: Sparkles, providers: 712 },
-    { name: 'Handyman', icon: HardHat, providers: 891 },
-  ];
-
   return (
-    <section className="py-20 bg-neutral-50">
-      <div className="container">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="heading-2 text-neutral-800 mb-4">
-            Popular Services
-          </h2>
-          <p className="body-large text-neutral-600">
-            Browse services by category
-          </p>
-        </div>
+    <>
+      <style jsx>{`
+        .popular-services-section {
+          padding: 5rem 0;
+          background-color: #f5f5f5;
+        }
 
-        {/* Services Grid - 4 columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={service.name}
-                className={`bg-neutral-0 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-2 ${
-                  index === 0 ? 'border-primary' : 'border-neutral-200'
-                } hover:border-primary`}
-              >
-                {/* Icon */}
-                <div className="flex justify-center mb-4">
-                  <Icon className="w-12 h-12 text-primary" />
-                </div>
-                
-                {/* Service Name */}
-                <h3 className="heading-4 text-neutral-800 mb-2">
-                  {service.name}
-                </h3>
-                
-                {/* Provider Count */}
-                <p className="body-small text-neutral-600">
-                  {service.providers} providers
-                </p>
+        .section-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          font-weight: 700;
+          color: #2d3748;
+          margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+          font-size: 1.125rem;
+          color: #718096;
+        }
+
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .service-card {
+          background: white;
+          border-radius: 1rem;
+          padding: 2.5rem 1.5rem;
+          text-align: center;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          border-color: var(--primary-500);
+        }
+
+        .icon-wrapper {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .icon-wrapper i {
+          font-size: 2rem;
+          color: var(--primary-500);
+        }
+
+        .service-name {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #2d3748;
+          margin-bottom: 0.5rem;
+        }
+
+        .provider-count {
+          font-size: 0.9375rem;
+          color: #718096;
+        }
+
+        @media (max-width: 1024px) {
+          .services-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .popular-services-section {
+            padding: 4rem 0;
+          }
+
+          .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+          }
+
+          .service-card {
+            padding: 2rem 1rem;
+          }
+
+          .icon-wrapper i {
+            font-size: 1.75rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .services-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+
+      {/* Font Awesome CDN */}
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+
+      <section className="popular-services-section">
+        <div className="container">
+          {/* Header */}
+          <div className="section-header">
+            <h2 className="section-title">Popular Services</h2>
+            <p className="section-subtitle">Browse services by category</p>
+          </div>
+
+          {/* Services Grid */}
+          <div className="services-grid">
+            {/* Electrical Work */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-bolt"></i>
               </div>
-            );
-          })}
+              <h3 className="service-name">Electrical Work</h3>
+              <p className="provider-count">847 providers</p>
+            </div>
+
+            {/* Plumbing */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-wrench"></i>
+              </div>
+              <h3 className="service-name">Plumbing</h3>
+              <p className="provider-count">623 providers</p>
+            </div>
+
+            {/* HVAC */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-snowflake"></i>
+              </div>
+              <h3 className="service-name">HVAC</h3>
+              <p className="provider-count">412 providers</p>
+            </div>
+
+            {/* Carpentry */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-hammer"></i>
+              </div>
+              <h3 className="service-name">Carpentry</h3>
+              <p className="provider-count">534 providers</p>
+            </div>
+
+            {/* Painting */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-paint-roller"></i>
+              </div>
+              <h3 className="service-name">Painting</h3>
+              <p className="provider-count">389 providers</p>
+            </div>
+
+            {/* Landscaping */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-tree"></i>
+              </div>
+              <h3 className="service-name">Landscaping</h3>
+              <p className="provider-count">456 providers</p>
+            </div>
+
+            {/* Cleaning */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-broom"></i>
+              </div>
+              <h3 className="service-name">Cleaning</h3>
+              <p className="provider-count">712 providers</p>
+            </div>
+
+            {/* Handyman */}
+            <div className="service-card">
+              <div className="icon-wrapper">
+                <i className="fas fa-tools"></i>
+              </div>
+              <h3 className="service-name">Handyman</h3>
+              <p className="provider-count">891 providers</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

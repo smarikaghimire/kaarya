@@ -19,7 +19,7 @@ export default function SafetySection() {
           <div className="relative">
             <div className="bg-neutral-0 rounded-2xl p-8 shadow-xl">
               <div className="text-center mb-6">
-                <h3 className="heading-3 text-neutral-800">with Satisfied</h3>
+                <h3 className="heading-3 text-neutral-800">With</h3>
                 <h3 className="heading-3 text-neutral-800">Satisfied Client</h3>
               </div>
               <div className="relative w-full h-[300px]">
