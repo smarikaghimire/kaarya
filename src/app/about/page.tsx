@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+"use client";
+
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,12 +18,6 @@ import {
   faAward,
   faCogs,
 } from "@fortawesome/free-solid-svg-icons";
-
-export const metadata: Metadata = {
-  title: "About Us - Kaarya",
-  description:
-    "Learn about Kaarya's mission to connect service providers with customers",
-};
 
 export default function AboutPage() {
   const serviceCategories = [
@@ -86,7 +81,7 @@ export default function AboutPage() {
 
         <div className="absolute inset-0 bg-gradient-to-br from-[#1a4d2e]/85 to-[#2d6a4f]/90 z-[1]"></div>
 
-        <div className="container-custom relative z-10">
+        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 rounded-full mb-4 backdrop-blur-sm border border-white/30">
               <FontAwesomeIcon icon={faAward} className="text-white text-xs" />
@@ -115,7 +110,7 @@ export default function AboutPage() {
       </div>
 
       {/* Main Content Section */}
-      <div className="container-custom">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Title */}
         <div className="text-center pt-16 pb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
