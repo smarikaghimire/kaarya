@@ -1,329 +1,106 @@
-'use client';
+"use client";
 
 import Image from "next/image";
-import { Search, MapPin, CheckCircle, Briefcase, Star } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faMapMarkerAlt,
+  faCheckCircle,
+  faBriefcase,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Hero() {
   return (
-    <>
-      <style jsx>{`
-        .hero-section {
-          background: linear-gradient(135deg, #e8f5f1 0%, #d8f0e8 100%);
-          padding: 6rem 0 4rem 0;
-          min-height: 550px;
-        }
+    <section className="bg-gradient-to-br from-[#e8f5f1] to-[#d8f0e8] pt-24 pb-16 min-h-[550px]">
+      <div className="max-w-[1440px] mx-auto px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 xl:gap-16 items-center">
+          {/* Left Content */}
+          <div className="max-w-[700px]">
+            <h1 className="text-[clamp(2.25rem,4vw,3rem)] font-bold text-[#1e3a4f] leading-[1.15] mb-5 tracking-[-0.02em]">
+              Find Trusted Service Providers Near You
+            </h1>
 
-        .hero-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 4rem;
-          align-items: center;
-        }
+            <p className="text-[1.0625rem] text-[#5a6c7a] leading-[1.65] mb-8">
+              Connect with verified professionals for electrical, plumbing,
+              HVAC, and more
+            </p>
 
-        .hero-left {
-          max-width: 700px;
-        }
-
-        .hero-title {
-          font-size: clamp(2.25rem, 4vw, 3rem);
-          font-weight: 700;
-          color: #1e3a4f;
-          line-height: 1.15;
-          margin-bottom: 1.25rem;
-          letter-spacing: -0.02em;
-        }
-
-        .hero-subtitle {
-          font-size: 1.0625rem;
-          color: #5a6c7a;
-          line-height: 1.65;
-          margin-bottom: 2rem;
-        }
-
-        .search-container {
-          background: white;
-          border-radius: 6px;
-          padding: 0.375rem;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-          margin-bottom: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 0;
-          max-width: 700px;
-        }
-
-        .search-input-wrapper {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          gap: 0.625rem;
-          padding: 0.75rem 1rem;
-          min-width: 0;
-        }
-
-        .search-input-wrapper:first-of-type {
-          flex: 1.2;
-        }
-
-        .search-input-wrapper:last-of-type {
-          flex: 0.8;
-        }
-
-        .search-input-wrapper :global(svg) {
-          color: #0d9563;
-          flex-shrink: 0;
-          width: 18px;
-          height: 18px;
-        }
-
-        .search-divider {
-          width: 1px;
-          height: 20px;
-          background: #e5e7eb;
-          flex-shrink: 0;
-        }
-
-        .search-input {
-          flex: 1;
-          border: none;
-          background: transparent;
-          font-size: 0.9375rem;
-          color: #374151;
-          outline: none;
-          min-width: 0;
-        }
-
-        .search-input::placeholder {
-          color: #9ca3af;
-        }
-
-        .search-button {
-          padding: 0.75rem 1.75rem;
-          background: #0d9563;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          font-weight: 600;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          white-space: nowrap;
-          flex-shrink: 0;
-        }
-
-        .search-button:hover {
-          background: #059953;
-        }
-
-        .stats-row {
-          display: flex;
-          gap: 1.75rem;
-          align-items: center;
-          flex-wrap: nowrap;
-        }
-
-        .stat-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.9375rem;
-          color: #374151;
-          font-weight: 400;
-          white-space: nowrap;
-        }
-
-        .stat-item :global(svg) {
-          color: #0d9563;
-          flex-shrink: 0;
-          width: 18px;
-          height: 18px;
-        }
-
-        .hero-right {
-          position: relative;
-          display: flex;
-          justify-content: flex-end;
-          padding-right: 2rem;
-        }
-
-        .hero-image-wrapper {
-          position: relative;
-          width: 100%;
-          max-width: 550px;
-          height: auto;
-        }
-
-        @media (max-width: 1200px) {
-          .hero-grid {
-            grid-template-columns: 1fr 0.9fr;
-            gap: 3rem;
-          }
-
-          .stats-row {
-            gap: 1.5rem;
-          }
-
-          .stat-item {
-            font-size: 0.875rem;
-          }
-        }
-
-        @media (max-width: 1024px) {
-          .hero-grid {
-            gap: 2.5rem;
-          }
-
-          .stats-row {
-            gap: 1.25rem;
-          }
-
-          .stat-item {
-            font-size: 0.8125rem;
-          }
-
-          .hero-image-wrapper {
-            max-width: 480px;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            padding: 5rem 0 3rem 0;
-          }
-
-          .hero-grid {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-          }
-
-          .hero-left {
-            max-width: 100%;
-          }
-
-          .hero-right {
-            justify-content: center;
-            padding-right: 0;
-          }
-
-          .search-container {
-            flex-wrap: wrap;
-            padding: 0.5rem;
-            gap: 0.5rem;
-          }
-
-          .search-input-wrapper {
-            width: 100%;
-            padding: 0.625rem 0.875rem;
-          }
-
-          .search-input-wrapper:first-of-type,
-          .search-input-wrapper:last-of-type {
-            flex: 1;
-          }
-
-          .search-divider {
-            display: none;
-          }
-
-          .search-button {
-            width: 100%;
-            padding: 0.875rem;
-          }
-
-          .stats-row {
-            flex-wrap: wrap;
-            gap: 1rem;
-          }
-
-          .stat-item {
-            font-size: 0.8125rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-title {
-            font-size: 1.875rem;
-          }
-
-          .hero-subtitle {
-            font-size: 1rem;
-          }
-        }
-      `}</style>
-
-      <section className="hero-section">
-        <div className="container">
-          <div className="hero-grid">
-            {/* Left Content */}
-            <div className="hero-left">
-              <h1 className="hero-title">
-                Find Trusted Service Providers Near You
-              </h1>
-
-              <p className="hero-subtitle">
-                Connect with verified professionals for electrical, plumbing, HVAC, and more
-              </p>
-
-              {/* Search Box */}
-              <div className="search-container">
-                <div className="search-input-wrapper">
-                  <Search size={18} />
-                  <input
-                    type="text"
-                    placeholder="What service do you need?"
-                    className="search-input"
-                  />
-                </div>
-
-                <div className="search-divider"></div>
-
-                <div className="search-input-wrapper">
-                  <MapPin size={18} />
-                  <input
-                    type="text"
-                    placeholder="Where?"
-                    className="search-input"
-                  />
-                </div>
-
-                <button className="search-button">
-                  Search
-                </button>
+            {/* Search Box */}
+            <div className="bg-white rounded-md p-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)] mb-6 flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-0 max-w-[700px]">
+              <div className="flex-[1.2] flex items-center gap-2.5 px-4 py-3 min-w-0">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="text-[#0d9563] shrink-0 w-[18px] h-[18px]"
+                />
+                <input
+                  type="text"
+                  placeholder="What service do you need?"
+                  className="flex-1 border-none bg-transparent text-[0.9375rem] text-neutral-700 outline-none min-w-0 placeholder:text-neutral-400"
+                />
               </div>
 
-              {/* Stats */}
-              <div className="stats-row">
-                <div className="stat-item">
-                  <CheckCircle size={18} />
-                  <span>5,000+ Verified Providers</span>
-                </div>
-                <div className="stat-item">
-                  <Briefcase size={18} />
-                  <span>50,000+ Jobs Completed</span>
-                </div>
-                <div className="stat-item">
-                  <Star size={18} />
-                  <span>4.8★ Average Rating</span>
-                </div>
+              <div className="hidden md:block w-px h-5 bg-[#e5e7eb] shrink-0"></div>
+
+              <div className="flex-[0.8] flex items-center gap-2.5 px-4 py-3 min-w-0">
+                <FontAwesomeIcon
+                  icon={faMapMarkerAlt}
+                  className="text-[#0d9563] shrink-0 w-[18px] h-[18px]"
+                />
+                <input
+                  type="text"
+                  placeholder="Where?"
+                  className="flex-1 border-none bg-transparent text-[0.9375rem] text-neutral-700 outline-none min-w-0 placeholder:text-neutral-400"
+                />
               </div>
+
+              <button className="px-7 py-3 bg-[#0d9563] text-white border-none rounded font-semibold text-base cursor-pointer transition-all duration-200 whitespace-nowrap shrink-0 hover:bg-[#059953]">
+                Search
+              </button>
             </div>
 
-            {/* Right Content */}
-            <div className="hero-right">
-              <div className="hero-image-wrapper">
-                <Image
-                  src="/hero-side.png"
-                  alt="Professional service providers"
-                  width={550}
-                  height={400}
-                  priority
-                  quality={90}
+            {/* Stats */}
+            <div className="flex flex-wrap gap-7 lg:gap-5 xl:gap-7 items-center">
+              <div className="flex items-center gap-2 text-[0.9375rem] md:text-[0.8125rem] lg:text-[0.9375rem] text-neutral-700 whitespace-nowrap">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="text-[#0d9563] shrink-0 w-[18px] h-[18px]"
                 />
+                <span>5,000+ Verified Providers</span>
+              </div>
+              <div className="flex items-center gap-2 text-[0.9375rem] md:text-[0.8125rem] lg:text-[0.9375rem] text-neutral-700 whitespace-nowrap">
+                <FontAwesomeIcon
+                  icon={faBriefcase}
+                  className="text-[#0d9563] shrink-0 w-[18px] h-[18px]"
+                />
+                <span>50,000+ Jobs Completed</span>
+              </div>
+              <div className="flex items-center gap-2 text-[0.9375rem] md:text-[0.8125rem] lg:text-[0.9375rem] text-neutral-700 whitespace-nowrap">
+                <FontAwesomeIcon
+                  icon={faStar}
+                  className="text-[#0d9563] shrink-0 w-[18px] h-[18px]"
+                />
+                <span>4.8★ Average Rating</span>
               </div>
             </div>
           </div>
+
+          {/* Right Content */}
+          <div className="relative flex justify-center lg:justify-end lg:pr-8">
+            <div className="relative w-full max-w-[550px] lg:max-w-[480px] xl:max-w-[550px]">
+              <Image
+                src="/hero-side.png"
+                alt="Professional service providers"
+                width={550}
+                height={400}
+                priority
+                quality={90}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

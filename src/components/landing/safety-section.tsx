@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { CheckCircle2 } from 'lucide-react';
+import Image from "next/image";
+import { CheckCircle2 } from "lucide-react";
 
 export default function SafetySection() {
   const features = [
-    'Background-checked providers with verified credentials',
-    'Verified licenses and insurance documentation',
-    'Secure payment processing with buyer protection',
-    '24/7 customer support for your peace of mind',
+    "Background-checked providers with verified credentials",
+    "Verified licenses and insurance documentation",
+    "Secure payment processing with buyer protection",
+    "24/7 customer support for your peace of mind",
   ];
 
   return (
@@ -35,18 +35,24 @@ export default function SafetySection() {
 
           {/* Content Side */}
           <div>
-            <h2 className="heading-2 mb-8 text-neutral-800">Your Safety is Our Priority</h2>
+            <h2 className="heading-2 mb-8 text-neutral-800">
+              Your Safety is Our Priority
+            </h2>
             <div className="space-y-4">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-1">
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-1">
                     <CheckCircle2 className="w-5 h-5 text-neutral-0" />
                   </div>
-                  <p className="body-large flex-1 text-neutral-700">{feature}</p>
+                  <p className="body-large flex-1 text-neutral-700">
+                    {feature}
+                  </p>
                 </div>
               ))}
             </div>
-            <button className="btn-primary mt-8">Learn About Our Verification Process</button>
+            <button className="btn-primary mt-8">
+              Learn About Our Verification Process
+            </button>
           </div>
         </div>
       </div>
