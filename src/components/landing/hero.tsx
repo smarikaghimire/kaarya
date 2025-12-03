@@ -60,7 +60,7 @@ export default function Hero() {
             </div>
 
             {/* Stats */}
-            <div className="flex flex-wrap gap-7 lg:gap-5 xl:gap-7 items-center">
+            <div className="flex flex-wrap gap-4 items-center">
               <div className="flex items-center gap-2 text-[0.9375rem] md:text-[0.8125rem] lg:text-[0.9375rem] text-neutral-700 whitespace-nowrap">
                 <FontAwesomeIcon
                   icon={faCheckCircle}
