@@ -559,10 +559,10 @@ export default function AboutPage() {
               grow your business, Kaarya is here to help you succeed.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="bg-white text-[#1ab189] px-7 py-3 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:-translate-y-1">
+              <button className="bg-white text-[#1ab189] px-7 py-3 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:-translate-y-1 cursor-pointer">
                 Find a Provider
               </button>
-              <button className="bg-transparent border-2 border-white text-white px-7 py-3 rounded-lg font-bold hover:bg-white/10 transition-all hover:-translate-y-1">
+              <button className="bg-transparent border-2 border-white text-white px-7 py-3 rounded-lg font-bold hover:bg-white/10 transition-all hover:-translate-y-1 cursor-pointer">
                 Become a Provider
               </button>
             </div>
