@@ -27,7 +27,7 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="#services"
+              href="/services"
               className="text-gray-700 no-underline text-[0.9375rem] font-medium transition-colors duration-300 hover:text-[#1ab189]"
             >
               Services
