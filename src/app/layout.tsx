@@ -4,6 +4,11 @@ import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 
+// FontAwesome configuration
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -24,7 +29,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <Navbar />
-        {/* Add padding-top to account for fixed/absolute navbar */}
         <main className="pt-[80px]">{children}</main>
         <Footer />
       </body>
