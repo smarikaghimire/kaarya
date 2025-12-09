@@ -48,12 +48,18 @@ export default function Navbar() {
 
           {/* Buttons - Desktop */}
           <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-            <button className="bg-white text-[#1ab189] px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-2 border-[#1ab189] transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(26,177,137,0.2)] active:translate-y-0">
+            <Link
+              href="/login"
+              className="bg-white text-[#1ab189] px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-2 border-[#1ab189] transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(26,177,137,0.2)] active:translate-y-0 no-underline inline-block text-center"
+            >
               Sign In
-            </button>
-            <button className="bg-[#1ab189] text-white px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-none transition-all duration-300 hover:bg-[#0d9563] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(26,177,137,0.3)] active:translate-y-0">
-              Get Started
-            </button>
+            </Link>
+            <Link
+              href="/join-provider"
+              className="bg-[#1ab189] text-white px-6 py-3 rounded-lg text-[0.9375rem] font-medium transition-all duration-300 hover:bg-[#0d9563] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(26,177,137,0.3)] active:translate-y-0 no-underline inline-block text-center"
+            >
+              Join as Provider
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -106,7 +112,7 @@ export default function Navbar() {
                 Home
               </Link>
               <Link
-                href="#services"
+                href="/services"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-gray-700 no-underline text-[0.9375rem] font-medium transition-colors duration-300 hover:text-[#1ab189] py-2"
               >
@@ -129,12 +135,20 @@ export default function Navbar() {
 
               {/* Mobile Buttons */}
               <div className="flex flex-col gap-3 mt-4">
-                <button className="bg-white text-[#1ab189] px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-2 border-[#1ab189] transition-all duration-300 hover:bg-gray-50 w-full">
+                <Link
+                  href="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="bg-white text-[#1ab189] px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-2 border-[#1ab189] transition-all duration-300 hover:bg-gray-50 w-full text-center no-underline focus:outline-none focus:ring-2 focus:ring-[#1ab189] focus:ring-offset-2 inline-block"
+                >
                   Sign In
-                </button>
-                <button className="bg-[#1ab189] text-white px-6 py-3 rounded-lg text-[0.9375rem] font-medium border-none transition-all duration-300 hover:bg-[#0d9563] w-full">
-                  Get Started
-                </button>
+                </Link>
+                <Link
+                  href="/join-provider"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="bg-[#1ab189] text-white px-6 py-3 rounded-lg text-[0.9375rem] font-medium transition-all duration-300 hover:bg-[#0d9563] w-full text-center no-underline focus:outline-none focus:ring-2 focus:ring-[#1ab189] focus:ring-offset-2 inline-block"
+                >
+                  Join as Provider
+                </Link>
               </div>
             </div>
           </div>

@@ -205,7 +205,7 @@ export default function ServicesPage() {
               </button>
 
               {/* Sort Dropdown */}
-              <select className="px-4 py-2 rounded-lg border border-neutral-200 bg-neutral-0 text-neutral-700 text-sm font-medium focus:outline-none focus:border-[#1ab189] focus:shadow-[0_0_0_3px_rgba(26,177,137,0.08)] cursor-pointer transition-all">
+              <select  title="ok" className="px-4 py-2 rounded-lg border border-neutral-200 bg-neutral-0 text-neutral-700 text-sm font-medium focus:outline-none focus:border-[#1ab189] focus:shadow-[0_0_0_3px_rgba(26,177,137,0.08)] cursor-pointer transition-all">
                 <option>Sort by: Best Match</option>
                 <option>Sort by: Highest Rating</option>
                 <option>Sort by: Most Reviews</option>
