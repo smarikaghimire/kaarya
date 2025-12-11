@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 interface FormData {
   fullName: string;
+  businessName: string;
   email: string;
   countryCode: string;
   phoneNumber: string;
+  city: string;
   password: string;
   confirmPassword: string;
   serviceCategory: string;
@@ -22,7 +24,7 @@ export default function JoinProviderPage() {
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
-      countryCode: '+977',
+      countryCode: "+977",
     },
   });
 
@@ -30,25 +32,25 @@ export default function JoinProviderPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    console.log('Provider registration:', data);
+    console.log("Provider registration:", data);
     // Add your registration API call here
   };
 
   const calculatePasswordStrength = (pwd: string) => {
-    if (!pwd) return '';
-    if (pwd.length < 6) return 'Weak';
-    if (pwd.length < 10) return 'Medium';
-    return 'Strong';
+    if (!pwd) return "";
+    if (pwd.length < 6) return "Weak";
+    if (pwd.length < 10) return "Medium";
+    return "Strong";
   };
 
   const getPasswordStrengthColor = (strength: string) => {
-    if (strength === 'Weak') return 'text-error';
-    if (strength === 'Medium') return 'text-warning';
-    return 'text-success';
+    if (strength === "Weak") return "text-error";
+    if (strength === "Medium") return "text-warning";
+    return "text-success";
   };
 
   // Get password value safely
-  const password = watch('password', '');
+  const password = watch("password", "");
   const passwordStrength = calculatePasswordStrength(password);
 
   return (
@@ -67,13 +69,13 @@ export default function JoinProviderPage() {
           <div className="text-center mb-8">
             <Link href="/" className="inline-block group">
               <h1 className="text-4xl font-bold text-primary-500 mb-1 transition-transform duration-300 group-hover:scale-105">
-                Get Started Now 
+                Get Started Now
               </h1>
             </Link>
             <p className="text-sm mt-3 text-neutral-600">
-              Already have an account?{' '}
-              <Link 
-                href="/login?type=provider" 
+              Already have an account?{" "}
+              <Link
+                href="/login?type=provider"
                 className="font-semibold text-primary-500 hover:text-primary-600 hover:underline transition-colors duration-200"
               >
                 Sign in
@@ -86,15 +88,21 @@ export default function JoinProviderPage() {
             <div className="grid lg:grid-cols-[1.2fr_1fr]">
               {/* Left Side - Form */}
               <div className="p-8 lg:p-12">
-                <h2 className="text-3xl font-bold mb-2 text-neutral-800">Join Karya as a Provider</h2>
+                <h2 className="text-3xl font-bold mb-2 text-neutral-800">
+                  Join Karya as a Provider
+                </h2>
                 <p className="text-sm mb-8 text-neutral-600">
-                  Connect with clients in your area and grow your business with Nepal&apos;s trusted service platform
+                  Connect with clients in your area and grow your business with
+                  Nepal&apos;s trusted service platform
                 </p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                   {/* Full Name */}
                   <div>
-                    <label htmlFor="fullName" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="fullName"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Full Name <span className="text-error">*</span>
                     </label>
                     <div className="relative">
@@ -103,18 +111,18 @@ export default function JoinProviderPage() {
                         id="fullName"
                         type="text"
                         autoComplete="name"
-                        {...register('fullName', {
-                          required: 'Full name is required',
+                        {...register("fullName", {
+                          required: "Full name is required",
                           minLength: {
                             value: 2,
-                            message: 'Name must be at least 2 characters',
+                            message: "Name must be at least 2 characters",
                           },
                         })}
                         placeholder="Enter your full name"
                         className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                          errors.fullName 
-                            ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                            : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                          errors.fullName
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                         } bg-white focus:outline-none`}
                       />
                     </div>
@@ -126,9 +134,50 @@ export default function JoinProviderPage() {
                     )}
                   </div>
 
+                  {/* Business Name */}
+                  <div>
+                    <label
+                      htmlFor="businessName"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
+                      Business Name <span className="text-error">*</span>
+                    </label>
+                    <div className="relative">
+                      <i className="fas fa-store absolute left-4 top-1/2 -translate-y-1/2 text-primary-500"></i>
+                      <input
+                        id="businessName"
+                        type="text"
+                        autoComplete="organization"
+                        {...register("businessName", {
+                          required: "Business name is required",
+                          minLength: {
+                            value: 2,
+                            message:
+                              "Business name must be at least 2 characters",
+                          },
+                        })}
+                        placeholder="Enter your business name"
+                        className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${
+                          errors.businessName
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                        } bg-white focus:outline-none`}
+                      />
+                    </div>
+                    {errors.businessName && (
+                      <p className="text-xs text-error mt-1.5 ml-1 flex items-center gap-1">
+                        <i className="fas fa-exclamation-circle"></i>
+                        {errors.businessName.message}
+                      </p>
+                    )}
+                  </div>
+
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Email Address <span className="text-error">*</span>
                     </label>
                     <div className="relative">
@@ -137,18 +186,18 @@ export default function JoinProviderPage() {
                         id="email"
                         type="email"
                         autoComplete="email"
-                        {...register('email', {
-                          required: 'Email is required',
+                        {...register("email", {
+                          required: "Email is required",
                           pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Invalid email address',
+                            message: "Invalid email address",
                           },
                         })}
                         placeholder="your.email@example.com"
                         className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                          errors.email 
-                            ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                            : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                          errors.email
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                         } bg-white focus:outline-none`}
                       />
                     </div>
@@ -162,13 +211,16 @@ export default function JoinProviderPage() {
 
                   {/* Phone Number */}
                   <div>
-                    <label htmlFor="phoneNumber" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="phoneNumber"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Phone Number <span className="text-error">*</span>
                     </label>
                     <div className="flex gap-2">
-                      <select 
+                      <select
                         id="countryCode"
-                        {...register('countryCode')}
+                        {...register("countryCode")}
                         className="px-3 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-700 transition-all duration-300 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                       >
                         <option value="+977">🇳🇵 +977</option>
@@ -182,18 +234,18 @@ export default function JoinProviderPage() {
                           id="phoneNumber"
                           type="tel"
                           autoComplete="tel"
-                          {...register('phoneNumber', {
-                            required: 'Phone number is required',
+                          {...register("phoneNumber", {
+                            required: "Phone number is required",
                             pattern: {
                               value: /^[0-9]{10}$/,
-                              message: 'Phone number must be 10 digits',
+                              message: "Phone number must be 10 digits",
                             },
                           })}
                           placeholder="9876543210"
                           className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                            errors.phoneNumber 
-                              ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                              : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                            errors.phoneNumber
+                              ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                              : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                           } bg-white focus:outline-none`}
                         />
                       </div>
@@ -206,42 +258,87 @@ export default function JoinProviderPage() {
                     )}
                   </div>
 
+                  {/* City */}
+                  <div>
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
+                      City <span className="text-error">*</span>
+                    </label>
+                    <div className="relative">
+                      <i className="fas fa-map-marker-alt absolute left-4 top-1/2 -translate-y-1/2 text-primary-500"></i>
+                      <input
+                        id="city"
+                        type="text"
+                        autoComplete="address-level2"
+                        {...register("city", {
+                          required: "City is required",
+                          minLength: {
+                            value: 2,
+                            message: "City must be at least 2 characters",
+                          },
+                        })}
+                        placeholder="Enter your city"
+                        className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${
+                          errors.city
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                        } bg-white focus:outline-none`}
+                      />
+                    </div>
+                    {errors.city && (
+                      <p className="text-xs text-error mt-1.5 ml-1 flex items-center gap-1">
+                        <i className="fas fa-exclamation-circle"></i>
+                        {errors.city.message}
+                      </p>
+                    )}
+                  </div>
+
                   {/* Password */}
                   <div>
-                    <label htmlFor="password" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Password <span className="text-error">*</span>
                     </label>
                     <div className="relative">
                       <i className="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-primary-500"></i>
                       <input
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
-                        {...register('password', {
-                          required: 'Password is required',
+                        {...register("password", {
+                          required: "Password is required",
                           minLength: {
                             value: 8,
-                            message: 'Password must be at least 8 characters',
+                            message: "Password must be at least 8 characters",
                           },
                           pattern: {
                             value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                            message: 'Password must contain uppercase, lowercase, and number',
+                            message:
+                              "Password must contain uppercase, lowercase, and number",
                           },
                         })}
                         placeholder="Create a strong password"
                         className={`w-full pl-12 pr-12 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                          errors.password 
-                            ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                            : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                          errors.password
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                         } bg-white focus:outline-none`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        title={showPassword ? 'Hide password' : 'Show password'}
+                        title={showPassword ? "Hide password" : "Show password"}
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 transition-colors duration-200"
                       >
-                        <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                        <i
+                          className={`fas ${
+                            showPassword ? "fa-eye-slash" : "fa-eye"
+                          }`}
+                        ></i>
                       </button>
                     </div>
                     {errors.password && (
@@ -251,7 +348,11 @@ export default function JoinProviderPage() {
                       </p>
                     )}
                     {password && !errors.password && passwordStrength && (
-                      <p className={`text-xs mt-1.5 ml-1 flex items-center gap-1 ${getPasswordStrengthColor(passwordStrength)}`}>
+                      <p
+                        className={`text-xs mt-1.5 ml-1 flex items-center gap-1 ${getPasswordStrengthColor(
+                          passwordStrength
+                        )}`}
+                      >
                         <i className="fas fa-shield-alt"></i>
                         Password strength: {passwordStrength}
                       </p>
@@ -260,34 +361,47 @@ export default function JoinProviderPage() {
 
                   {/* Confirm Password */}
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Confirm Password <span className="text-error">*</span>
                     </label>
                     <div className="relative">
                       <i className="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-primary-500"></i>
                       <input
                         id="confirmPassword"
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        type={showConfirmPassword ? "text" : "password"}
                         autoComplete="new-password"
-                        {...register('confirmPassword', {
-                          required: 'Please confirm your password',
+                        {...register("confirmPassword", {
+                          required: "Please confirm your password",
                           validate: (value) =>
-                            value === password || 'Passwords do not match',
+                            value === password || "Passwords do not match",
                         })}
                         placeholder="Re-enter your password"
                         className={`w-full pl-12 pr-12 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                          errors.confirmPassword 
-                            ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                            : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                          errors.confirmPassword
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                         } bg-white focus:outline-none`}
                       />
                       <button
                         type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        title={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 transition-colors duration-200"
                       >
-                        <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                        <i
+                          className={`fas ${
+                            showConfirmPassword ? "fa-eye-slash" : "fa-eye"
+                          }`}
+                        ></i>
                       </button>
                     </div>
                     {errors.confirmPassword && (
@@ -300,20 +414,23 @@ export default function JoinProviderPage() {
 
                   {/* Service Category */}
                   <div>
-                    <label htmlFor="serviceCategory" className="block text-sm font-semibold mb-2 text-neutral-700">
+                    <label
+                      htmlFor="serviceCategory"
+                      className="block text-sm font-semibold mb-2 text-neutral-700"
+                    >
                       Service Category <span className="text-error">*</span>
                     </label>
                     <div className="relative">
                       <i className="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-primary-500 pointer-events-none"></i>
                       <select
                         id="serviceCategory"
-                        {...register('serviceCategory', {
-                          required: 'Please select a service category',
+                        {...register("serviceCategory", {
+                          required: "Please select a service category",
                         })}
                         className={`w-full pl-12 pr-10 py-3.5 rounded-xl border-2 transition-all duration-300 ${
-                          errors.serviceCategory 
-                            ? 'border-error focus:border-error focus:ring-4 focus:ring-error/10' 
-                            : 'border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10'
+                          errors.serviceCategory
+                            ? "border-error focus:border-error focus:ring-4 focus:ring-error/10"
+                            : "border-neutral-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                         } bg-white focus:outline-none appearance-none cursor-pointer text-neutral-700`}
                       >
                         <option value="">Select your primary service</option>
@@ -323,7 +440,9 @@ export default function JoinProviderPage() {
                         <option value="carpentry">Carpentry</option>
                         <option value="painting">Painting</option>
                         <option value="cleaning">Cleaning Services</option>
-                        <option value="gardening">Gardening & Landscaping</option>
+                        <option value="gardening">
+                          Gardening & Landscaping
+                        </option>
                         <option value="other">Other</option>
                       </select>
                       <i className="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none"></i>
@@ -357,16 +476,16 @@ export default function JoinProviderPage() {
 
                   {/* Terms */}
                   <p className="text-xs text-center text-neutral-500 mt-4">
-                    By creating an account, you agree to our{' '}
-                    <Link 
-                      href="/terms" 
+                    By creating an account, you agree to our{" "}
+                    <Link
+                      href="/terms"
                       className="font-semibold text-primary-500 hover:underline transition-colors duration-200"
                     >
                       Terms of Service
-                    </Link>
-                    {' '}and{' '}
-                    <Link 
-                      href="/privacy" 
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="/privacy"
                       className="font-semibold text-primary-500 hover:underline transition-colors duration-200"
                     >
                       Privacy Policy
@@ -383,7 +502,9 @@ export default function JoinProviderPage() {
                   </div>
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-2 bg-white/20 backdrop-blur-sm">
                     <i className="fas fa-check-circle text-white"></i>
-                    <span className="text-sm font-semibold text-white">VERIFIED</span>
+                    <span className="text-sm font-semibold text-white">
+                      VERIFIED
+                    </span>
                   </div>
                 </div>
 
@@ -402,7 +523,8 @@ export default function JoinProviderPage() {
                         Join 5,000+ Verified Providers
                       </h4>
                       <p className="text-sm text-white/90">
-                        Connect with clients who trust Karya for quality service professionals across Nepal
+                        Connect with clients who trust Karya for quality service
+                        professionals across Nepal
                       </p>
                     </div>
                   </div>
@@ -417,7 +539,9 @@ export default function JoinProviderPage() {
                         Average 15 Jobs per Month
                       </h4>
                       <p className="text-sm text-white/90">
-                        Our active providers receive consistent job opportunities in their service area with competitive rates
+                        Our active providers receive consistent job
+                        opportunities in their service area with competitive
+                        rates
                       </p>
                     </div>
                   </div>
@@ -432,7 +556,8 @@ export default function JoinProviderPage() {
                         4.8★ Average Rating
                       </h4>
                       <p className="text-sm text-white/90">
-                        Build your reputation with our verified review system and showcase your expertise
+                        Build your reputation with our verified review system
+                        and showcase your expertise
                       </p>
                     </div>
                   </div>
@@ -447,7 +572,24 @@ export default function JoinProviderPage() {
                         Secure Payments
                       </h4>
                       <p className="text-sm text-white/90">
-                        Get paid securely and on time through our trusted payment platform
+                        Get paid securely and on time through our trusted
+                        payment platform
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Benefit 5 */}
+                  <div className="flex gap-4 p-5 rounded-xl bg-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/15">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 bg-white/20">
+                      <i className="fas fa-headset text-xl text-white"></i>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold mb-1 text-white">
+                        24/7 Support Team
+                      </h4>
+                      <p className="text-sm text-white/90">
+                        Get assistance anytime with our dedicated support team
+                        ready to help you succeed
                       </p>
                     </div>
                   </div>
