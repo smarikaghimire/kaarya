@@ -1,3 +1,4 @@
+// src/components/landing/safety-section.tsx
 "use client";
 
 import Image from "next/image";
@@ -13,8 +14,8 @@ export default function SafetySection() {
 
   return (
     <section className="py-20 bg-neutral-50">
-      <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Image Side */}
           <div className="relative">
             <div className="bg-neutral-0 rounded-2xl p-8 shadow-xl">

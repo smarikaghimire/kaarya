@@ -1,44 +1,49 @@
-'use client';
+// src/components/landing/testimonials.tsx
+"use client";
 
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
 export default function Testimonials() {
   const testimonials = [
     {
-      initials: 'JW',
-      name: 'Jessica Williams',
-      location: 'Brooklyn, NY',
-      service: 'Kitchen Renovation',
-      text: 'Found an amazing electrician through Karya. The entire process was seamless, from booking to payment. Highly recommend this platform for anyone needing home services!',
+      initials: "JW",
+      name: "Jessica Williams",
+      location: "Brooklyn, NY",
+      service: "Kitchen Renovation",
+      text: "Found an amazing electrician through Karya. The entire process was seamless, from booking to payment. Highly recommend this platform for anyone needing home services!",
       rating: 5,
     },
     {
-      initials: 'RT',
-      name: 'Robert Taylor',
-      location: 'Queens, NY',
-      service: 'Plumbing Services',
+      initials: "RT",
+      name: "Robert Taylor",
+      location: "Queens, NY",
+      service: "Plumbing Services",
       text: "As a service provider, Karya has transformed my business. I get quality leads, manage projects efficiently, and the payment system is reliable. It's been a game-changer.",
       rating: 5,
     },
     {
-      initials: 'ML',
-      name: 'Maria Lopez',
-      location: 'Manhattan, NY',
-      service: 'HVAC Repair',
-      text: 'I was skeptical at first, but the verification process gave me confidence. The HVAC technician was professional, punctual, and did excellent work. Will definitely use again!',
+      initials: "ML",
+      name: "Maria Lopez",
+      location: "Manhattan, NY",
+      service: "HVAC Repair",
+      text: "I was skeptical at first, but the verification process gave me confidence. The HVAC technician was professional, punctual, and did excellent work. Will definitely use again!",
       rating: 5,
     },
   ];
 
   return (
     <section className="py-20 bg-neutral-0">
-      <div className="container">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4 text-neutral-800">What Our Clients Say</h2>
-          <p className="body-large text-neutral-600">Real experiences from real customers</p>
+          <h2 className="heading-2 mb-4 text-neutral-800">
+            What Our Clients Say
+          </h2>
+          <p className="body-large text-neutral-600">
+            Real experiences from real customers
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.name}
@@ -57,7 +62,9 @@ export default function Testimonials() {
                   {testimonial.initials}
                 </div>
                 <div>
-                  <h4 className="font-semibold text-neutral-800">{testimonial.name}</h4>
+                  <h4 className="font-semibold text-neutral-800">
+                    {testimonial.name}
+                  </h4>
                   <p className="body-small text-neutral-600">
                     {testimonial.location} • {testimonial.service}
                   </p>

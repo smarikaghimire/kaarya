@@ -1,52 +1,57 @@
-'use client';
+// src/components/landing/top-rated-providers.tsx
+"use client";
 
-import { MapPin, Star, CheckCircle2 } from 'lucide-react';
+import { MapPin, Star, CheckCircle2 } from "lucide-react";
 
 export default function TopRatedProviders() {
   const providers = [
     {
-      initials: 'MC',
-      name: 'Mike Chen',
-      title: 'Master Electrician',
+      initials: "MC",
+      name: "Mike Chen",
+      title: "Master Electrician",
       rating: 4.9,
       reviews: 247,
-      distance: '1.2 mi away',
+      distance: "1.2 mi away",
     },
     {
-      initials: 'SR',
-      name: 'Sarah Rodriguez',
-      title: 'Licensed Plumber',
+      initials: "SR",
+      name: "Sarah Rodriguez",
+      title: "Licensed Plumber",
       rating: 4.8,
       reviews: 189,
-      distance: '2.4 mi away',
+      distance: "2.4 mi away",
     },
     {
-      initials: 'DJ',
-      name: 'David Johnson',
-      title: 'HVAC Specialist',
+      initials: "DJ",
+      name: "David Johnson",
+      title: "HVAC Specialist",
       rating: 4.9,
       reviews: 312,
-      distance: '0.8 mi away',
+      distance: "0.8 mi away",
     },
     {
-      initials: 'EP',
-      name: 'Emily Parker',
-      title: 'Master Carpenter',
+      initials: "EP",
+      name: "Emily Parker",
+      title: "Master Carpenter",
       rating: 5.0,
       reviews: 156,
-      distance: '3.1 mi away',
+      distance: "3.1 mi away",
     },
   ];
 
   return (
     <section className="py-20 bg-neutral-0">
-      <div className="container">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4 text-neutral-800">Top-Rated Providers in Your Area</h2>
-          <p className="body-large text-neutral-600">Connect with verified professionals near you</p>
+          <h2 className="heading-2 mb-4 text-neutral-800">
+            Top-Rated Providers in Your Area
+          </h2>
+          <p className="body-large text-neutral-600">
+            Connect with verified professionals near you
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {providers.map((provider) => (
             <div
               key={provider.name}
@@ -60,17 +65,25 @@ export default function TopRatedProviders() {
                   <CheckCircle2 className="w-4 h-4 text-neutral-0" />
                 </div>
               </div>
-              <h3 className="heading-4 mb-1 text-neutral-800">{provider.name}</h3>
-              <p className="body-small mb-3 text-neutral-600">{provider.title}</p>
+              <h3 className="heading-4 mb-1 text-neutral-800">
+                {provider.name}
+              </h3>
+              <p className="body-small mb-3 text-neutral-600">
+                {provider.title}
+              </p>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <span className="font-semibold text-neutral-800">{provider.rating}</span>
+                <span className="font-semibold text-neutral-800">
+                  {provider.rating}
+                </span>
               </div>
-              <p className="body-small mb-3 text-neutral-600">{provider.reviews} reviews</p>
+              <p className="body-small mb-3 text-neutral-600">
+                {provider.reviews} reviews
+              </p>
               <p className="body-small mb-4 flex items-center justify-center gap-1 text-neutral-500">
                 <MapPin className="w-4 h-4" />
                 {provider.distance}
