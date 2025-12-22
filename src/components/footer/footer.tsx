@@ -266,7 +266,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex justify-center items-center">
           <p className="text-neutral-400 text-sm text-center m-0">
-            © 2024 Karya. Connecting Skills with Opportunities
+            © 2025 Karya. Connecting Skills with Opportunities
           </p>
         </div>
       </div>

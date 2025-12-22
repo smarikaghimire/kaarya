@@ -1,23 +1,22 @@
-'use client';
+// src/components/landing/how-it-works.tsx
+"use client";
 
-import { ClipboardList, UserCheck, Handshake } from 'lucide-react';
+import { ClipboardList, UserCheck, Handshake } from "lucide-react";
 
 export default function HowItWorks() {
   return (
     <section className="py-20 bg-neutral-0">
-      <div className="container">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="heading-2 text-neutral-800 mb-4">
-            How Kaarya Works
-          </h2>
+          <h2 className="heading-2 text-neutral-800 mb-4">How Kaarya Works</h2>
           <p className="body-large text-neutral-600">
             Get started in three simple steps
           </p>
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Card 1 */}
           <div className="flex flex-col items-center text-center">
             {/* Number Badge */}
@@ -36,7 +35,9 @@ export default function HowItWorks() {
                 Tell Us What You Need
               </h3>
               <p className="body-regular text-neutral-600">
-                Describe your project, set your budget, and specify your timeline. Our smart matching system will find the perfect providers for you.
+                Describe your project, set your budget, and specify your
+                timeline. Our smart matching system will find the perfect
+                providers for you.
               </p>
             </div>
           </div>
@@ -59,7 +60,8 @@ export default function HowItWorks() {
                 Browse Verified Providers
               </h3>
               <p className="body-regular text-neutral-600">
-                Review profiles, ratings, and portfolios of background-checked professionals. Compare quotes and choose the best fit.
+                Review profiles, ratings, and portfolios of background-checked
+                professionals. Compare quotes and choose the best fit.
               </p>
             </div>
           </div>
@@ -82,7 +84,8 @@ export default function HowItWorks() {
                 Get The Job Done
               </h3>
               <p className="body-regular text-neutral-600">
-                Track progress, communicate seamlessly, and make secure payments. Rate your experience when complete.
+                Track progress, communicate seamlessly, and make secure
+                payments. Rate your experience when complete.
               </p>
             </div>
           </div>
@@ -90,9 +93,7 @@ export default function HowItWorks() {
 
         {/* CTA Button */}
         <div className="text-center mt-12">
-          <button className="btn-primary">
-            Get Started Now →
-          </button>
+          <button className="btn-primary">Get Started Now →</button>
         </div>
       </div>
     </section>

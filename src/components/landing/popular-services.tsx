@@ -1,3 +1,4 @@
+// src/components/landing/popular-services.tsx
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,7 +27,7 @@ export default function PopularServices() {
 
   return (
     <section className="py-20 bg-neutral-50">
-      <div className="container-custom">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="heading-2 text-neutral-800 mb-3">Popular Services</h2>
@@ -36,7 +37,7 @@ export default function PopularServices() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <div
               key={index}
