@@ -19,6 +19,7 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function ProviderDashboard() {
   const [showOptimizationTip, setShowOptimizationTip] = useState(true);
@@ -206,10 +207,13 @@ export default function ProviderDashboard() {
                 <FontAwesomeIcon icon={faArrowUp} className="text-xs" />
                 <span>+15%</span>
               </div>
-              <button className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1">
+              <Link
+                href={"/"}
+                className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1 cursor-pointer"
+              >
                 View Analytics{" "}
                 <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
-              </button>
+              </Link>
             </div>
 
             {/* New Leads */}
@@ -223,10 +227,13 @@ export default function ProviderDashboard() {
               <p className="heading-2 text-neutral-900 mb-1">8</p>
               <p className="text-neutral-600 body-regular mb-2">New Leads</p>
               <p className="text-neutral-500 text-sm">3 responded to</p>
-              <button className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1">
+              <Link
+                href={"/"}
+                className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1 cursor-pointer"
+              >
                 View All{" "}
                 <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
-              </button>
+              </Link>
             </div>
 
             {/* Active Projects */}
@@ -244,7 +251,7 @@ export default function ProviderDashboard() {
               <p className="text-neutral-500 text-sm">
                 2 on track, 1 needs attention
               </p>
-              <button className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1">
+              <button className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1 cursor-pointer">
                 Go to Projects{" "}
                 <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
               </button>
@@ -270,10 +277,13 @@ export default function ProviderDashboard() {
                   />
                 ))}
               </div>
-              <button className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1">
+              <Link
+                href={"/"}
+                className="text-primary-600 text-sm font-medium mt-4 hover:text-primary-700 flex items-center gap-1 cursor-pointer"
+              >
                 View Details{" "}
                 <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -281,9 +291,12 @@ export default function ProviderDashboard() {
           <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="heading-3 text-neutral-900">Recent Activity</h3>
-              <button className="text-primary-600 font-medium hover:text-primary-700">
+              <Link
+                href={"/"}
+                className="text-primary-600 font-medium hover:text-primary-700 cursor-pointer"
+              >
                 View All
-              </button>
+              </Link>
             </div>
             <div className="space-y-4">
               {recentActivities.map((activity, index) => (
@@ -319,9 +332,12 @@ export default function ProviderDashboard() {
           <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="heading-3 text-neutral-900">Active Projects</h3>
-              <button className="text-primary-600 font-medium hover:text-primary-700">
+              <Link
+                href={"/provider/projects"}
+                className="text-primary-600 font-medium hover:text-primary-700 cursor-pointer"
+              >
                 View All Projects
-              </button>
+              </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {activeProjects.map((project, index) => (
@@ -368,10 +384,13 @@ export default function ProviderDashboard() {
                   <p className="text-neutral-600 body-small mb-4">
                     Next: {project.nextTask}
                   </p>
-                  <button className="text-primary-600 font-medium text-sm hover:text-primary-700 flex items-center gap-2">
+                  <Link
+                    href={"/"}
+                    className="text-primary-600 font-medium text-sm hover:text-primary-700 flex items-center gap-2 cursor-pointer"
+                  >
                     View Project{" "}
                     <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -388,18 +407,18 @@ export default function ProviderDashboard() {
                 <FontAwesomeIcon icon={faPlus} />
                 Create New Project
               </button>
-              <button className="w-full px-6 py-3 bg-neutral-0 text-primary-600 border-2 border-primary-600 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full px-6 py-3 bg-neutral-0 text-primary-600 border-2 border-primary-600 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <FontAwesomeIcon icon={faCalendarDays} />
                 Update Availability
               </button>
-              <button className="w-full px-6 py-3 bg-neutral-0 text-neutral-700 border border-neutral-200 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full px-6 py-3 bg-neutral-0 text-neutral-700 border border-neutral-200 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <FontAwesomeIcon icon={faMessage} />
                 Respond to Leads
                 <span className="ml-auto w-6 h-6 bg-primary-600 text-neutral-0 rounded-full flex items-center justify-center text-xs font-semibold">
                   8
                 </span>
               </button>
-              <button className="w-full px-6 py-3 bg-neutral-0 text-neutral-700 border border-neutral-200 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full px-6 py-3 bg-neutral-0 text-neutral-700 border border-neutral-200 rounded-lg font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <FontAwesomeIcon icon={faFolder} />
                 Post Portfolio Update
               </button>
@@ -450,9 +469,12 @@ export default function ProviderDashboard() {
                 </div>
               ))}
             </div>
-            <button className="w-full mt-4 text-primary-600 font-medium text-sm hover:text-primary-700">
+            <Link
+              href={"/"}
+              className="w-full mt-4 text-primary-600 font-medium text-sm hover:text-primary-700"
+            >
               View Full Calendar
-            </button>
+            </Link>
           </div>
 
           {/* Optimization Tip */}
@@ -480,12 +502,12 @@ export default function ProviderDashboard() {
                 </button>
               </div>
               <div className="flex gap-3">
-                <button className="px-4 py-2 bg-primary-600 text-neutral-0 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
+                <button className="px-4 py-2 bg-primary-600 text-neutral-0 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors cursor-pointer">
                   Update Availability
                 </button>
                 <button
                   onClick={() => setShowOptimizationTip(false)}
-                  className="px-4 py-2 bg-neutral-0 text-neutral-700 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
+                  className="px-4 py-2 bg-neutral-0 text-neutral-700 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors cursor-pointer"
                 >
                   Dismiss
                 </button>
