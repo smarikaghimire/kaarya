@@ -18,7 +18,7 @@ const navigationItems = [
   { icon: faTableCellsLarge, label: "Dashboard", href: "/provider/dashboard" },
   { icon: faFolder, label: "Projects", href: "/provider/projects" },
   { icon: faUsers, label: "Clients", href: "/provider/clients" },
-  { icon: faUserGroup, label: "Team", href: "/provider/team" },
+  { icon: faUserGroup, label: "Team", href: "/provider/teams" },
   { icon: faCalendar, label: "Calendar", href: "/provider/calendar" },
   { icon: faMessage, label: "Messages", href: "/provider/messages", badge: 8 },
   { icon: faDollarSign, label: "Earnings", href: "/provider/earnings" },
