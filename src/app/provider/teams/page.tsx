@@ -12,10 +12,12 @@ import {
   faChevronLeft,
   faChevronRight,
   faUserGroup,
+  faEye,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
-// Types
 interface TeamMember {
   id: string;
   name: string;
@@ -40,8 +42,9 @@ export default function TeamPage() {
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [sortBy, setSortBy] = useState("Name");
   const [currentPage, setCurrentPage] = useState(1);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Mock data
   const teamMembers: TeamMember[] = [
     {
       id: "1",
@@ -149,48 +152,55 @@ export default function TeamPage() {
     },
   ];
 
-  const getStatusColor = (status: TeamMember["status"]) => {
-    switch (status) {
-      case "Active":
-        return "text-green-600";
-      case "Inactive":
-        return "text-neutral-400";
-      case "On Leave":
-        return "text-yellow-600";
-      default:
-        return "text-neutral-400";
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleAction = (
+    action: string,
+    memberId: string,
+    memberName: string
+  ) => {
+    setOpenDropdown(null);
+    if (action === "view") alert(`Viewing team member: ${memberName}`);
+    else if (action === "update") alert(`Updating team member: ${memberName}`);
+    else if (
+      action === "delete" &&
+      confirm(`Are you sure you want to delete "${memberName}"?`)
+    ) {
+      alert(`Deleted team member: ${memberName}`);
     }
   };
 
   const getStatusBadgeColor = (status: TeamMember["status"]) => {
-    switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-700 border-green-200";
-      case "Inactive":
-        return "bg-neutral-100 text-neutral-600 border-neutral-200";
-      case "On Leave":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
-      default:
-        return "bg-neutral-100 text-neutral-600 border-neutral-200";
-    }
+    const colors = {
+      Active: "bg-green-100 text-green-700 border-green-200",
+      Inactive: "bg-neutral-100 text-neutral-600 border-neutral-200",
+      "On Leave": "bg-yellow-100 text-yellow-700 border-yellow-200",
+    };
+    return (
+      colors[status] || "bg-neutral-100 text-neutral-600 border-neutral-200"
+    );
   };
 
   const filteredMembers = teamMembers.filter((member) => {
-    if (activeTab === "active" && member.status !== "Active") {
-      return false;
-    }
-    if (activeTab === "inactive" && member.status !== "Inactive") {
-      return false;
-    }
-    if (activeTab === "onleave" && member.status !== "On Leave") {
-      return false;
-    }
+    if (activeTab === "active" && member.status !== "Active") return false;
+    if (activeTab === "inactive" && member.status !== "Inactive") return false;
+    if (activeTab === "onleave" && member.status !== "On Leave") return false;
     if (
       searchQuery &&
       !member.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
+    )
       return false;
-    }
     return true;
   });
 
@@ -210,7 +220,6 @@ export default function TeamPage() {
 
   return (
     <div className="flex-1 bg-neutral-50">
-      {/* Page Header */}
       <div className="bg-neutral-0 border-b border-neutral-200 px-8 py-6">
         <div className="flex items-center justify-between">
           <div>
@@ -226,7 +235,6 @@ export default function TeamPage() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="bg-neutral-0 border-b border-neutral-200 px-8">
         <div className="flex items-center gap-6">
           <button
@@ -278,12 +286,9 @@ export default function TeamPage() {
         </div>
       </div>
 
-      {/* Filters and Controls */}
       <div className="bg-neutral-0 px-8 py-4 border-b border-neutral-200">
         <div className="flex items-center justify-between">
-          {/* Left side - Search and Filters */}
           <div className="flex items-center gap-3 flex-1">
-            {/* Search */}
             <div className="relative">
               <FontAwesomeIcon
                 icon={faSearch}
@@ -298,7 +303,6 @@ export default function TeamPage() {
               />
             </div>
 
-            {/* Role Filter */}
             <div className="relative">
               <select
                 value={roleFilter}
@@ -318,7 +322,6 @@ export default function TeamPage() {
               />
             </div>
 
-            {/* Department Filter */}
             <div className="relative">
               <select
                 value={departmentFilter}
@@ -338,9 +341,7 @@ export default function TeamPage() {
             </div>
           </div>
 
-          {/* Right side - Sort and Actions */}
           <div className="flex items-center gap-3">
-            {/* Sort By */}
             <div className="relative">
               <select
                 value={sortBy}
@@ -358,7 +359,6 @@ export default function TeamPage() {
               />
             </div>
 
-            {/* More Options */}
             <button
               className="p-2 bg-neutral-0 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
               aria-label="More options"
@@ -372,27 +372,24 @@ export default function TeamPage() {
         </div>
       </div>
 
-      {/* Main Content - Table */}
       <div className="p-8">
         <div className="bg-neutral-0 rounded-xl border border-neutral-200 overflow-hidden">
-          {/* Table Header */}
           <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-neutral-50 border-b border-neutral-200 text-neutral-600 font-semibold text-sm">
             <div className="col-span-3">TEAM MEMBER</div>
             <div className="col-span-2">ROLE</div>
-            <div className="col-span-2">CONTACT</div>
-            <div className="col-span-2">STATUS</div>
+            <div className="col-span-3">CONTACT</div>
+            <div className="col-span-1">STATUS</div>
             <div className="col-span-1">PROJECTS</div>
-            <div className="col-span-2">JOIN DATE</div>
+            <div className="col-span-1">JOIN DATE</div>
+            <div className="col-span-1 text-center">ACTIONS</div>
           </div>
 
-          {/* Table Body */}
           <div className="divide-y divide-neutral-100">
             {paginatedMembers.map((member) => (
               <div
                 key={member.id}
-                className="grid grid-cols-12 gap-4 px-6 py-5 hover:bg-neutral-50 transition-colors cursor-pointer group"
+                className="grid grid-cols-12 gap-4 px-6 py-5 hover:bg-neutral-50 transition-colors group"
               >
-                {/* Team Member */}
                 <div className="col-span-3 flex items-center gap-4">
                   <div
                     className={`w-12 h-12 rounded-full ${member.color} text-neutral-0 flex items-center justify-center font-semibold text-base flex-shrink-0`}
@@ -409,13 +406,11 @@ export default function TeamPage() {
                   </div>
                 </div>
 
-                {/* Role */}
                 <div className="col-span-2 flex items-center">
                   <span className="text-neutral-700">{member.role}</span>
                 </div>
 
-                {/* Contact */}
-                <div className="col-span-2 flex flex-col justify-center gap-1">
+                <div className="col-span-3 flex flex-col justify-center gap-1">
                   <div className="flex items-center gap-2 text-neutral-600 text-sm">
                     <FontAwesomeIcon
                       icon={faEnvelope}
@@ -432,14 +427,9 @@ export default function TeamPage() {
                   </div>
                 </div>
 
-                {/* Status */}
-                <div className="col-span-2 flex items-center gap-3">
-                  <FontAwesomeIcon
-                    icon={faCircle}
-                    className={`text-xs ${getStatusColor(member.status)}`}
-                  />
+                <div className="col-span-1 flex items-center">
                   <span
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${getStatusBadgeColor(
+                    className={`px-2 py-1 rounded-lg text-xs font-semibold border ${getStatusBadgeColor(
                       member.status
                     )}`}
                   >
@@ -447,7 +437,6 @@ export default function TeamPage() {
                   </span>
                 </div>
 
-                {/* Projects */}
                 <div className="col-span-1 flex items-center">
                   <div className="flex items-center gap-2">
                     <FontAwesomeIcon
@@ -460,15 +449,73 @@ export default function TeamPage() {
                   </div>
                 </div>
 
-                {/* Join Date */}
-                <div className="col-span-2 flex items-center text-neutral-700">
+                <div className="col-span-1 flex items-center text-neutral-700">
                   <span>{member.joinDate}</span>
+                </div>
+
+                <div className="col-span-1 flex items-center justify-center">
+                  <div
+                    className="relative"
+                    ref={openDropdown === member.id ? dropdownRef : null}
+                  >
+                    <button
+                      onClick={() =>
+                        setOpenDropdown(
+                          openDropdown === member.id ? null : member.id
+                        )
+                      }
+                      className="p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+                      aria-label="Actions"
+                    >
+                      <FontAwesomeIcon
+                        icon={faEllipsisVertical}
+                        className="text-neutral-600"
+                      />
+                    </button>
+
+                    {openDropdown === member.id && (
+                      <div className="absolute right-0 mt-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
+                        <button
+                          onClick={() =>
+                            handleAction("view", member.id, member.name)
+                          }
+                          className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                        >
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            className="text-blue-600 w-4"
+                          />
+                          View
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleAction("update", member.id, member.name)
+                          }
+                          className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                        >
+                          <FontAwesomeIcon
+                            icon={faPenToSquare}
+                            className="text-green-600 w-4"
+                          />
+                          Update
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleAction("delete", member.id, member.name)
+                          }
+                          className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                        >
+                          <FontAwesomeIcon icon={faTrash} className="w-4" />
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between">
             <p className="text-neutral-600 text-sm">
               Showing {(currentPage - 1) * 6 + 1}-

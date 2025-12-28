@@ -9,15 +9,14 @@ import {
   faTableCells,
   faChevronDown,
   faCalendar,
-  faUsers,
   faChevronLeft,
   faChevronRight,
+  faEye,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
-// Types
 interface Project {
   id: string;
   name: string;
@@ -49,17 +48,15 @@ export default function ProjectsPage() {
   const [dateRangeFilter, setDateRangeFilter] = useState("Date Range");
   const [sortBy, setSortBy] = useState("Due Date");
   const [currentPage, setCurrentPage] = useState(1);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Mock data
   const projects: Project[] = [
     {
       id: "1",
       name: "Kitchen Renovation",
       category: "Renovation • Electrical",
-      client: {
-        name: "Sarah Johnson",
-        initials: "SJ",
-      },
+      client: { name: "Sarah Johnson", initials: "SJ" },
       progress: 65,
       status: "On Track",
       dueDate: "Feb 28, 2024",
@@ -74,10 +71,7 @@ export default function ProjectsPage() {
       id: "2",
       name: "Bathroom Upgrade",
       category: "Plumbing • Renovation",
-      client: {
-        name: "David Martinez",
-        initials: "DM",
-      },
+      client: { name: "David Martinez", initials: "DM" },
       progress: 30,
       status: "Needs Attention",
       dueDate: "Mar 15, 2024",
@@ -91,10 +85,7 @@ export default function ProjectsPage() {
       id: "3",
       name: "Electrical Panel Upgrade",
       category: "Electrical • Commercial",
-      client: {
-        name: "Jennifer White",
-        initials: "JW",
-      },
+      client: { name: "Jennifer White", initials: "JW" },
       progress: 90,
       status: "On Track",
       dueDate: "Feb 10, 2024",
@@ -108,10 +99,7 @@ export default function ProjectsPage() {
       id: "4",
       name: "HVAC System Installation",
       category: "HVAC • Residential",
-      client: {
-        name: "Michael Brown",
-        initials: "MB",
-      },
+      client: { name: "Michael Brown", initials: "MB" },
       progress: 100,
       status: "Completed",
       dueDate: "Jan 20, 2024",
@@ -126,10 +114,7 @@ export default function ProjectsPage() {
       id: "5",
       name: "Garden & Landscape Design",
       category: "Landscaping • Outdoor",
-      client: {
-        name: "Robert Anderson",
-        initials: "RA",
-      },
+      client: { name: "Robert Anderson", initials: "RA" },
       progress: 45,
       status: "On Track",
       dueDate: "Mar 30, 2024",
@@ -141,34 +126,55 @@ export default function ProjectsPage() {
     },
   ];
 
-  const getStatusColor = (status: Project["status"]) => {
-    switch (status) {
-      case "On Track":
-        return "bg-green-600";
-      case "Needs Attention":
-        return "bg-yellow-600";
-      case "Completed":
-        return "bg-primary-600";
-      case "Archived":
-        return "bg-neutral-400";
-      default:
-        return "bg-neutral-400";
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleAction = (
+    action: string,
+    projectId: string,
+    projectName: string
+  ) => {
+    setOpenDropdown(null);
+    if (action === "view") alert(`Viewing project: ${projectName}`);
+    else if (action === "update") alert(`Updating project: ${projectName}`);
+    else if (
+      action === "delete" &&
+      confirm(`Are you sure you want to delete "${projectName}"?`)
+    ) {
+      alert(`Deleted project: ${projectName}`);
     }
   };
 
+  const getStatusColor = (status: Project["status"]) => {
+    const colors = {
+      "On Track": "bg-green-600",
+      "Needs Attention": "bg-yellow-600",
+      Completed: "bg-primary-600",
+      Archived: "bg-neutral-400",
+    };
+    return colors[status] || "bg-neutral-400";
+  };
+
   const getStatusBadgeColor = (status: Project["status"]) => {
-    switch (status) {
-      case "On Track":
-        return "bg-green-100 text-green-700 border-green-200";
-      case "Needs Attention":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
-      case "Completed":
-        return "bg-primary-50 text-primary-700 border-primary-200";
-      case "Archived":
-        return "bg-neutral-100 text-neutral-600 border-neutral-200";
-      default:
-        return "bg-neutral-100 text-neutral-600 border-neutral-200";
-    }
+    const colors = {
+      "On Track": "bg-green-100 text-green-700 border-green-200",
+      "Needs Attention": "bg-yellow-100 text-yellow-700 border-yellow-200",
+      Completed: "bg-primary-50 text-primary-700 border-primary-200",
+      Archived: "bg-neutral-100 text-neutral-600 border-neutral-200",
+    };
+    return (
+      colors[status] || "bg-neutral-100 text-neutral-600 border-neutral-200"
+    );
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -176,21 +182,16 @@ export default function ProjectsPage() {
       activeTab === "active" &&
       project.status !== "On Track" &&
       project.status !== "Needs Attention"
-    ) {
+    )
       return false;
-    }
-    if (activeTab === "completed" && project.status !== "Completed") {
+    if (activeTab === "completed" && project.status !== "Completed")
       return false;
-    }
-    if (activeTab === "archived" && project.status !== "Archived") {
-      return false;
-    }
+    if (activeTab === "archived" && project.status !== "Archived") return false;
     if (
       searchQuery &&
       !project.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
+    )
       return false;
-    }
     return true;
   });
 
@@ -202,7 +203,6 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50">
-      {/* Header */}
       <div className="bg-neutral-0 border-b border-neutral-200 px-8 py-6">
         <div className="flex items-center justify-between mb-2">
           <div>
@@ -218,61 +218,35 @@ export default function ProjectsPage() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="bg-neutral-0 border-b border-neutral-200 px-8">
         <div className="flex items-center gap-6">
-          <button
-            onClick={() => setActiveTab("all")}
-            className={`py-4 border-b-2 font-medium transition-colors ${
-              activeTab === "all"
-                ? "border-primary-600 text-primary-600"
-                : "border-transparent text-neutral-600 hover:text-neutral-900"
-            }`}
-          >
-            All Projects
-          </button>
-          <button
-            onClick={() => setActiveTab("active")}
-            className={`py-4 border-b-2 font-medium transition-colors flex items-center gap-2 ${
-              activeTab === "active"
-                ? "border-primary-600 text-primary-600"
-                : "border-transparent text-neutral-600 hover:text-neutral-900"
-            }`}
-          >
-            Active
-            <span className="px-2 py-0.5 bg-primary-600 text-neutral-0 rounded-full text-xs font-semibold">
-              3
-            </span>
-          </button>
-          <button
-            onClick={() => setActiveTab("completed")}
-            className={`py-4 border-b-2 font-medium transition-colors ${
-              activeTab === "completed"
-                ? "border-primary-600 text-primary-600"
-                : "border-transparent text-neutral-600 hover:text-neutral-900"
-            }`}
-          >
-            Completed
-          </button>
-          <button
-            onClick={() => setActiveTab("archived")}
-            className={`py-4 border-b-2 font-medium transition-colors ${
-              activeTab === "archived"
-                ? "border-primary-600 text-primary-600"
-                : "border-transparent text-neutral-600 hover:text-neutral-900"
-            }`}
-          >
-            Archived
-          </button>
+          {(["all", "active", "completed", "archived"] as TabFilter[]).map(
+            (tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-4 border-b-2 font-medium transition-colors flex items-center gap-2 ${
+                  activeTab === tab
+                    ? "border-primary-600 text-primary-600"
+                    : "border-transparent text-neutral-600 hover:text-neutral-900"
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() +
+                  tab.slice(1).replace("active", "Active")}
+                {tab === "active" && (
+                  <span className="px-2 py-0.5 bg-primary-600 text-neutral-0 rounded-full text-xs font-semibold">
+                    3
+                  </span>
+                )}
+              </button>
+            )
+          )}
         </div>
       </div>
 
-      {/* Filters and Controls */}
       <div className="bg-neutral-0 px-8 py-4 border-b border-neutral-200">
         <div className="flex items-center justify-between">
-          {/* Left side - Search and Filters */}
           <div className="flex items-center gap-3 flex-1">
-            {/* Search */}
             <div className="relative">
               <FontAwesomeIcon
                 icon={faSearch}
@@ -286,113 +260,89 @@ export default function ProjectsPage() {
                 className="pl-10 pr-4 py-2 bg-neutral-0 border border-neutral-200 rounded-lg w-64 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small"
               />
             </div>
-
-            {/* Status Filter */}
-            <div className="relative">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none pl-4 pr-10 py-2 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
-              >
-                <option>All Statuses</option>
-                <option>On Track</option>
-                <option>Needs Attention</option>
-                <option>Completed</option>
-              </select>
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs pointer-events-none"
-              />
-            </div>
-
-            {/* Client Filter */}
-            <div className="relative">
-              <select
-                value={clientFilter}
-                onChange={(e) => setClientFilter(e.target.value)}
-                className="appearance-none pl-4 pr-10 py-2 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
-              >
-                <option>All Clients</option>
-                <option>Sarah Johnson</option>
-                <option>David Martinez</option>
-                <option>Jennifer White</option>
-              </select>
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs pointer-events-none"
-              />
-            </div>
-
-            {/* Date Range Filter */}
-            <div className="relative">
-              <select
-                value={dateRangeFilter}
-                onChange={(e) => setDateRangeFilter(e.target.value)}
-                className="appearance-none pl-4 pr-10 py-2 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
-              >
-                <option>Date Range</option>
-                <option>This Week</option>
-                <option>This Month</option>
-                <option>Next Month</option>
-              </select>
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs pointer-events-none"
-              />
-            </div>
+            {[
+              {
+                value: statusFilter,
+                setValue: setStatusFilter,
+                options: [
+                  "All Statuses",
+                  "On Track",
+                  "Needs Attention",
+                  "Completed",
+                ],
+              },
+              {
+                value: clientFilter,
+                setValue: setClientFilter,
+                options: [
+                  "All Clients",
+                  "Sarah Johnson",
+                  "David Martinez",
+                  "Jennifer White",
+                ],
+              },
+              {
+                value: dateRangeFilter,
+                setValue: setDateRangeFilter,
+                options: [
+                  "Date Range",
+                  "This Week",
+                  "This Month",
+                  "Next Month",
+                ],
+              },
+            ].map((filter, idx) => (
+              <div key={idx} className="relative">
+                <select
+                  value={filter.value}
+                  onChange={(e) => filter.setValue(e.target.value)}
+                  className="appearance-none pl-4 pr-10 py-2 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
+                >
+                  {filter.options.map((opt) => (
+                    <option key={opt}>{opt}</option>
+                  ))}
+                </select>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs pointer-events-none"
+                />
+              </div>
+            ))}
           </div>
-
-          {/* Right side - View Controls */}
           <div className="flex items-center gap-3">
-            {/* View Mode Toggle */}
             <div className="flex items-center bg-neutral-50 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-2 rounded transition-colors ${
-                  viewMode === "list"
-                    ? "bg-neutral-0 text-primary-600 shadow-sm"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
-                aria-label="List view"
-              >
-                <FontAwesomeIcon icon={faList} />
-              </button>
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-2 rounded transition-colors ${
-                  viewMode === "grid"
-                    ? "bg-neutral-0 text-primary-600 shadow-sm"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
-                aria-label="Grid view"
-              >
-                <FontAwesomeIcon icon={faTableCells} />
-              </button>
+              {(["list", "grid"] as ViewMode[]).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => setViewMode(mode)}
+                  className={`p-2 rounded transition-colors ${
+                    viewMode === mode
+                      ? "bg-neutral-0 text-primary-600 shadow-sm"
+                      : "text-neutral-600 hover:text-neutral-900"
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={mode === "list" ? faList : faTableCells}
+                  />
+                </button>
+              ))}
             </div>
-
-            {/* Sort By */}
             <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="appearance-none pl-4 pr-10 py-2 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
               >
-                <option>Sort by: Due Date</option>
-                <option>Sort by: Name</option>
-                <option>Sort by: Progress</option>
-                <option>Sort by: Client</option>
+                {["Due Date", "Name", "Progress", "Client"].map((opt) => (
+                  <option key={opt}>Sort by: {opt}</option>
+                ))}
               </select>
               <FontAwesomeIcon
                 icon={faChevronDown}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs pointer-events-none"
               />
             </div>
-
-            {/* More Options */}
-            <button
-              className="p-2 bg-neutral-0 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
-              aria-label="More options"
-            >
+            <button className="p-2 bg-neutral-0 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors">
               <FontAwesomeIcon
                 icon={faEllipsisVertical}
                 className="text-neutral-600"
@@ -402,65 +352,53 @@ export default function ProjectsPage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="p-8">
         {viewMode === "list" ? (
-          /* List View */
           <div className="bg-neutral-0 rounded-xl border border-neutral-200 overflow-hidden">
-            {/* Table Header */}
             <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-neutral-50 border-b border-neutral-200 text-neutral-600 font-semibold text-sm">
               <div className="col-span-3">PROJECT NAME</div>
               <div className="col-span-2">CLIENT</div>
               <div className="col-span-2">PROGRESS</div>
               <div className="col-span-2">STATUS</div>
               <div className="col-span-2">DUE DATE</div>
-              <div className="col-span-1">TEAM</div>
+              <div className="col-span-1 text-center">ACTIONS</div>
             </div>
-
-            {/* Table Body */}
             <div className="divide-y divide-neutral-100">
               {paginatedProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="grid grid-cols-12 gap-4 px-6 py-5 hover:bg-neutral-50 transition-colors cursor-pointer group"
+                  className="grid grid-cols-12 gap-4 px-6 py-5 hover:bg-neutral-50 transition-colors group"
                 >
-                  {/* Project Name */}
                   <div className="col-span-3 flex items-center gap-4">
                     <div className="w-12 h-12 rounded-lg bg-neutral-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                       {project.image ? (
-                        <div className="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700" />
+                        <div className="w-full h-full bg-primary" />
                       ) : (
                         <span className="text-neutral-400 text-xl">📁</span>
                       )}
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors">
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors truncate">
                         {project.name}
                       </h4>
-                      <p className="text-neutral-500 text-sm">
+                      <p className="text-neutral-500 text-sm truncate">
                         {project.category}
                       </p>
                     </div>
                   </div>
-
-                  {/* Client */}
-                  <div className="col-span-2 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary-600 text-neutral-0 flex items-center justify-center text-sm font-semibold">
+                  <div className="col-span-2 flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded-full bg-primary-600 text-neutral-0 flex items-center justify-center text-sm font-semibold flex-shrink-0">
                       {project.client.initials}
                     </div>
-                    <span className="text-neutral-700">
+                    <span className="text-neutral-700 truncate">
                       {project.client.name}
                     </span>
                   </div>
-
-                  {/* Progress */}
                   <div className="col-span-2 flex items-center">
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-neutral-600">
-                          {project.progress}% Complete
-                        </span>
-                      </div>
+                      <span className="text-sm text-neutral-600 block mb-1">
+                        {project.progress}% Complete
+                      </span>
                       <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
                         <div
                           className={`h-full ${getStatusColor(
@@ -471,41 +409,76 @@ export default function ProjectsPage() {
                       </div>
                     </div>
                   </div>
-
-                  {/* Status */}
                   <div className="col-span-2 flex items-center">
                     <span
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${getStatusBadgeColor(
+                      className={`px-2 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap ${getStatusBadgeColor(
                         project.status
                       )}`}
                     >
                       {project.status}
                     </span>
                   </div>
-
-                  {/* Due Date */}
                   <div className="col-span-2 flex items-center gap-2 text-neutral-700">
                     <FontAwesomeIcon
                       icon={faCalendar}
-                      className="text-neutral-400 text-sm"
+                      className="text-neutral-400 text-sm flex-shrink-0"
                     />
-                    <span>{project.dueDate}</span>
+                    <span className="whitespace-nowrap">{project.dueDate}</span>
                   </div>
-
-                  {/* Team */}
-                  <div className="col-span-1 flex items-center">
-                    <div className="flex -space-x-2">
-                      {project.team.slice(0, 3).map((member, idx) => (
-                        <div
-                          key={idx}
-                          className={`w-8 h-8 rounded-full ${member.color} text-neutral-0 flex items-center justify-center text-xs font-semibold border-2 border-neutral-0`}
-                        >
-                          {member.initials}
-                        </div>
-                      ))}
-                      {project.team.length > 3 && (
-                        <div className="w-8 h-8 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center text-xs font-semibold border-2 border-neutral-0">
-                          +{project.team.length - 3}
+                  <div className="col-span-1 flex items-center justify-center">
+                    <div
+                      className="relative"
+                      ref={openDropdown === project.id ? dropdownRef : null}
+                    >
+                      <button
+                        onClick={() =>
+                          setOpenDropdown(
+                            openDropdown === project.id ? null : project.id
+                          )
+                        }
+                        className="p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+                        aria-label="Actions"
+                      >
+                        <FontAwesomeIcon
+                          icon={faEllipsisVertical}
+                          className="text-neutral-600"
+                        />
+                      </button>
+                      {openDropdown === project.id && (
+                        <div className="absolute right-0 mt-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
+                          <button
+                            onClick={() =>
+                              handleAction("view", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="text-blue-600 w-4"
+                            />
+                            View
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAction("update", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              className="text-green-600 w-4"
+                            />
+                            Update
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAction("delete", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon icon={faTrash} className="w-4" />
+                            Delete
+                          </button>
                         </div>
                       )}
                     </div>
@@ -513,8 +486,6 @@ export default function ProjectsPage() {
                 </div>
               ))}
             </div>
-
-            {/* Pagination */}
             <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between">
               <p className="text-neutral-600 text-sm">
                 Showing {(currentPage - 1) * 5 + 1}-
@@ -563,15 +534,13 @@ export default function ProjectsPage() {
             </div>
           </div>
         ) : (
-          /* Grid View */
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {paginatedProjects.map((project) => (
               <div
                 key={project.id}
                 className="bg-neutral-0 rounded-xl border border-neutral-200 overflow-hidden hover:shadow-lg hover:border-primary-500 transition-all cursor-pointer group"
               >
-                {/* Project Image */}
-                <div className="h-48 bg-gradient-to-br from-primary-500 to-primary-700 relative overflow-hidden">
+                <div className="h-48 bg-primary relative overflow-hidden">
                   <div className="absolute inset-0 bg-neutral-900/20 group-hover:bg-neutral-900/10 transition-colors" />
                   <div className="absolute top-4 right-4">
                     <span
@@ -583,10 +552,7 @@ export default function ProjectsPage() {
                     </span>
                   </div>
                 </div>
-
-                {/* Project Details */}
                 <div className="p-6">
-                  {/* Client Info */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-full bg-primary-600 text-neutral-0 flex items-center justify-center font-semibold">
                       {project.client.initials}
@@ -595,16 +561,12 @@ export default function ProjectsPage() {
                       {project.client.name}
                     </span>
                   </div>
-
-                  {/* Project Name */}
                   <h4 className="heading-4 text-neutral-900 mb-2 group-hover:text-primary-600 transition-colors">
                     {project.name}
                   </h4>
                   <p className="text-neutral-500 text-sm mb-4">
                     {project.category}
                   </p>
-
-                  {/* Progress */}
                   <div className="mb-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-neutral-600 text-sm">
@@ -620,14 +582,10 @@ export default function ProjectsPage() {
                       />
                     </div>
                   </div>
-
-                  {/* Due Date */}
                   <div className="flex items-center gap-2 text-neutral-600 text-sm mb-4">
                     <FontAwesomeIcon icon={faCalendar} className="text-xs" />
                     <span>Due {project.dueDate}</span>
                   </div>
-
-                  {/* Team and Action */}
                   <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
                     <div className="flex -space-x-2">
                       {project.team.slice(0, 3).map((member, idx) => (
@@ -644,9 +602,64 @@ export default function ProjectsPage() {
                         </div>
                       )}
                     </div>
-                    <button className="text-primary-600 font-medium text-sm hover:text-primary-700">
-                      View Project →
-                    </button>
+                    <div
+                      className="relative"
+                      ref={
+                        openDropdown === `grid-${project.id}`
+                          ? dropdownRef
+                          : null
+                      }
+                    >
+                      <button
+                        onClick={() =>
+                          setOpenDropdown(
+                            openDropdown === `grid-${project.id}`
+                              ? null
+                              : `grid-${project.id}`
+                          )
+                        }
+                        className="text-primary-600 font-medium text-sm hover:text-primary-700 flex items-center gap-1"
+                      >
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                      </button>
+                      {openDropdown === `grid-${project.id}` && (
+                        <div className="absolute right-0 bottom-full mb-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
+                          <button
+                            onClick={() =>
+                              handleAction("view", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="text-primary-600 w-4"
+                            />
+                            View
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAction("update", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              className="text-green-600 w-4"
+                            />
+                            Update
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAction("delete", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon icon={faTrash} className="w-4" />
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
