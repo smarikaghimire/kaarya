@@ -16,6 +16,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 interface Project {
   id: string;
@@ -211,10 +212,13 @@ export default function ProjectsPage() {
               Manage all your projects in one place
             </p>
           </div>
-          <button className="btn-primary flex items-center gap-2 shadow-lg">
+          <Link
+            href={"/provider/projects/create"}
+            className="btn-primary flex items-center gap-2 shadow-lg"
+          >
             <FontAwesomeIcon icon={faPlus} />
             Create New Project
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -469,6 +473,18 @@ export default function ProjectsPage() {
                               className="text-green-600 w-4"
                             />
                             Update
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAction("update", project.id, project.name)
+                            }
+                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3 transition-colors"
+                          >
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              className="text-green-600 w-4"
+                            />
+                            Update Milestones
                           </button>
                           <button
                             onClick={() =>
