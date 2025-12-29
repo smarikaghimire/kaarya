@@ -10,6 +10,7 @@ import {
   faMessage,
   faDollarSign,
   faGear,
+  faNewspaper,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,6 +18,11 @@ import { usePathname } from "next/navigation";
 const navigationItems = [
   { icon: faTableCellsLarge, label: "Dashboard", href: "/provider/dashboard" },
   { icon: faFolder, label: "Projects", href: "/provider/projects" },
+  {
+    icon: faNewspaper,
+    label: "Daily Updates",
+    href: "/provider/daily-updates",
+  },
   { icon: faUsers, label: "Clients", href: "/provider/clients" },
   { icon: faUserGroup, label: "Team", href: "/provider/teams" },
   { icon: faCalendar, label: "Calendar", href: "/provider/calendar" },

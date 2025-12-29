@@ -11,6 +11,8 @@ import {
   faFileAlt,
   faBriefcase,
   faCheckCircle,
+  faPenToSquare,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
@@ -698,7 +700,6 @@ export default function CreateProjectPage() {
                 onClick={saveMilestone}
                 className="btn-primary flex items-center gap-2"
               >
-                <FontAwesomeIcon icon={faCheckCircle} />
                 {editingMilestone ? "Update Milestone" : "Add Milestone"}
               </button>
             </div>
