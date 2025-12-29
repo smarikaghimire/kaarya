@@ -22,6 +22,13 @@ interface Milestone {
   status: "pending" | "in-progress" | "completed";
 }
 
+interface MilestoneFormData {
+  title: string;
+  description: string;
+  dueDate: string;
+  status: "pending" | "in-progress" | "completed";
+}
+
 export default function CreateProjectPage() {
   const [projectName, setProjectName] = useState("");
   const [location, setLocation] = useState("");
@@ -30,41 +37,98 @@ export default function CreateProjectPage() {
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [milestones, setMilestones] = useState<Milestone[]>([
-    {
-      id: "1",
-      title: "",
-      description: "",
-      dueDate: "",
-      status: "pending",
-    },
-  ]);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [showMilestoneModal, setShowMilestoneModal] = useState(false);
+  const [editingMilestone, setEditingMilestone] = useState<Milestone | null>(
+    null
+  );
+  const [milestoneForm, setMilestoneForm] = useState<MilestoneFormData>({
+    title: "",
+    description: "",
+    dueDate: "",
+    status: "pending",
+  });
+  const [viewingMilestone, setViewingMilestone] = useState<Milestone | null>(
+    null
+  );
 
-  const addMilestone = () => {
-    const newMilestone: Milestone = {
-      id: Date.now().toString(),
-      title: "",
-      description: "",
-      dueDate: "",
-      status: "pending",
-    };
-    setMilestones([...milestones, newMilestone]);
+  const openMilestoneModal = (milestone?: Milestone) => {
+    if (milestone) {
+      setEditingMilestone(milestone);
+      setMilestoneForm({
+        title: milestone.title,
+        description: milestone.description,
+        dueDate: milestone.dueDate,
+        status: milestone.status,
+      });
+    } else {
+      setEditingMilestone(null);
+      setMilestoneForm({
+        title: "",
+        description: "",
+        dueDate: "",
+        status: "pending",
+      });
+    }
+    setShowMilestoneModal(true);
   };
 
-  const removeMilestone = (id: string) => {
-    if (milestones.length > 1) {
+  const closeMilestoneModal = () => {
+    setShowMilestoneModal(false);
+    setEditingMilestone(null);
+    setMilestoneForm({
+      title: "",
+      description: "",
+      dueDate: "",
+      status: "pending",
+    });
+  };
+
+  const saveMilestone = () => {
+    if (!milestoneForm.title || !milestoneForm.dueDate) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    if (editingMilestone) {
+      // Update existing milestone
+      setMilestones(
+        milestones.map((m) =>
+          m.id === editingMilestone.id ? { ...m, ...milestoneForm } : m
+        )
+      );
+    } else {
+      // Add new milestone
+      const newMilestone: Milestone = {
+        id: Date.now().toString(),
+        ...milestoneForm,
+      };
+      setMilestones([...milestones, newMilestone]);
+    }
+    closeMilestoneModal();
+  };
+
+  const deleteMilestone = (id: string) => {
+    if (confirm("Are you sure you want to delete this milestone?")) {
       setMilestones(milestones.filter((m) => m.id !== id));
     }
   };
 
-  const updateMilestone = (
-    id: string,
-    field: keyof Milestone,
-    value: string
-  ) => {
-    setMilestones(
-      milestones.map((m) => (m.id === id ? { ...m, [field]: value } : m))
-    );
+  const viewMilestone = (milestone: Milestone) => {
+    setViewingMilestone(milestone);
+  };
+
+  const closeViewModal = () => {
+    setViewingMilestone(null);
+  };
+
+  const getStatusBadgeColor = (status: Milestone["status"]) => {
+    const colors = {
+      pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
+      "in-progress": "bg-blue-100 text-blue-700 border-blue-200",
+      completed: "bg-green-100 text-green-700 border-green-200",
+    };
+    return colors[status];
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -306,7 +370,7 @@ export default function CreateProjectPage() {
                 </h2>
                 <button
                   type="button"
-                  onClick={addMilestone}
+                  onClick={() => openMilestoneModal()}
                   className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-neutral-0 rounded-lg hover:bg-primary-700 transition-colors font-medium text-sm"
                 >
                   <FontAwesomeIcon icon={faPlus} />
@@ -314,118 +378,79 @@ export default function CreateProjectPage() {
                 </button>
               </div>
 
-              <div className="space-y-4">
-                {milestones.map((milestone, index) => (
-                  <div
-                    key={milestone.id}
-                    className="border border-neutral-200 rounded-lg p-5 hover:border-primary-500 transition-colors"
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold text-neutral-700 body-regular">
-                        Milestone {index + 1}
-                      </h3>
-                      {milestones.length > 1 && (
+              {milestones.length > 0 ? (
+                <div className="space-y-3">
+                  {milestones.map((milestone, index) => (
+                    <div
+                      key={milestone.id}
+                      className="flex items-center justify-between p-4 border border-neutral-200 rounded-lg hover:border-primary-500 transition-colors"
+                    >
+                      <div className="flex items-center gap-4 flex-1 min-w-0">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-50 text-primary-600 font-semibold flex-shrink-0">
+                          {index + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-neutral-900 truncate">
+                            {milestone.title}
+                          </h4>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="text-neutral-500 text-sm flex items-center gap-1">
+                              <FontAwesomeIcon
+                                icon={faCalendar}
+                                className="text-xs"
+                              />
+                              {new Date(milestone.dueDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                            <span
+                              className={`px-2 py-0.5 rounded text-xs font-semibold border ${getStatusBadgeColor(
+                                milestone.status
+                              )}`}
+                            >
+                              {milestone.status === "in-progress"
+                                ? "In Progress"
+                                : milestone.status.charAt(0).toUpperCase() +
+                                  milestone.status.slice(1)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
                         <button
                           type="button"
-                          onClick={() => removeMilestone(milestone.id)}
+                          onClick={() => viewMilestone(milestone)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          aria-label="View milestone"
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openMilestoneModal(milestone)}
+                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                          aria-label="Edit milestone"
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteMilestone(milestone.id)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          aria-label="Remove milestone"
+                          aria-label="Delete milestone"
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
-                      )}
-                    </div>
-
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-neutral-600 font-medium mb-2 body-small">
-                          Milestone Title{" "}
-                          <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={milestone.title}
-                          onChange={(e) =>
-                            updateMilestone(
-                              milestone.id,
-                              "title",
-                              e.target.value
-                            )
-                          }
-                          placeholder="e.g., Foundation Complete"
-                          required
-                          className="w-full px-4 py-2.5 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-neutral-600 font-medium mb-2 body-small">
-                          Description
-                        </label>
-                        <textarea
-                          value={milestone.description}
-                          onChange={(e) =>
-                            updateMilestone(
-                              milestone.id,
-                              "description",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Describe this milestone..."
-                          rows={2}
-                          className="w-full px-4 py-2.5 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small resize-none"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-neutral-600 font-medium mb-2 body-small">
-                            Due Date <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="date"
-                            value={milestone.dueDate}
-                            onChange={(e) =>
-                              updateMilestone(
-                                milestone.id,
-                                "dueDate",
-                                e.target.value
-                              )
-                            }
-                            min={startDate}
-                            max={endDate}
-                            required
-                            className="w-full px-4 py-2.5 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-neutral-600 font-medium mb-2 body-small">
-                            Status
-                          </label>
-                          <select
-                            value={milestone.status}
-                            onChange={(e) =>
-                              updateMilestone(
-                                milestone.id,
-                                "status",
-                                e.target.value
-                              )
-                            }
-                            className="w-full px-4 py-2.5 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-small cursor-pointer"
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                          </select>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              {milestones.length === 0 && (
+                  ))}
+                </div>
+              ) : (
                 <div className="text-center py-12 text-neutral-500">
                   <FontAwesomeIcon
                     icon={faCheckCircle}
@@ -555,6 +580,239 @@ export default function CreateProjectPage() {
           </div>
         </div>
       </form>
+
+      {/* Add/Edit Milestone Modal */}
+      {showMilestoneModal && (
+        <div className="fixed inset-0 bg-neutral-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-0 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-neutral-0 border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+              <h3 className="heading-4 text-neutral-900">
+                {editingMilestone ? "Edit Milestone" : "Add New Milestone"}
+              </h3>
+              <button
+                onClick={closeMilestoneModal}
+                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+                aria-label="Close modal"
+              >
+                <svg
+                  className="w-5 h-5 text-neutral-600"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6 space-y-5">
+              <div>
+                <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                  Milestone Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={milestoneForm.title}
+                  onChange={(e) =>
+                    setMilestoneForm({
+                      ...milestoneForm,
+                      title: e.target.value,
+                    })
+                  }
+                  placeholder="e.g., Foundation Complete"
+                  className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                  Description
+                </label>
+                <textarea
+                  value={milestoneForm.description}
+                  onChange={(e) =>
+                    setMilestoneForm({
+                      ...milestoneForm,
+                      description: e.target.value,
+                    })
+                  }
+                  placeholder="Describe this milestone..."
+                  rows={4}
+                  className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular resize-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                    Due Date <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={milestoneForm.dueDate}
+                    onChange={(e) =>
+                      setMilestoneForm({
+                        ...milestoneForm,
+                        dueDate: e.target.value,
+                      })
+                    }
+                    min={startDate}
+                    max={endDate}
+                    className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                    Status
+                  </label>
+                  <select
+                    value={milestoneForm.status}
+                    onChange={(e) =>
+                      setMilestoneForm({
+                        ...milestoneForm,
+                        status: e.target.value as Milestone["status"],
+                      })
+                    }
+                    className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular cursor-pointer"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-200 px-6 py-4 flex items-center justify-end gap-3">
+              <button
+                onClick={closeMilestoneModal}
+                className="px-5 py-2.5 border border-neutral-200 rounded-lg text-neutral-700 font-medium hover:bg-neutral-100 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveMilestone}
+                className="btn-primary flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faCheckCircle} />
+                {editingMilestone ? "Update Milestone" : "Add Milestone"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Milestone Modal */}
+      {viewingMilestone && (
+        <div className="fixed inset-0 bg-neutral-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-0 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-neutral-0 border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+              <h3 className="heading-4 text-neutral-900">Milestone Details</h3>
+              <button
+                onClick={closeViewModal}
+                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+                aria-label="Close modal"
+              >
+                <svg
+                  className="w-5 h-5 text-neutral-600"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div>
+                <label className="block text-neutral-600 font-medium mb-2 body-small">
+                  Title
+                </label>
+                <p className="text-neutral-900 font-semibold text-lg">
+                  {viewingMilestone.title}
+                </p>
+              </div>
+
+              {viewingMilestone.description && (
+                <div>
+                  <label className="block text-neutral-600 font-medium mb-2 body-small">
+                    Description
+                  </label>
+                  <p className="text-neutral-700 body-regular leading-relaxed">
+                    {viewingMilestone.description}
+                  </p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-neutral-600 font-medium mb-2 body-small">
+                    Due Date
+                  </label>
+                  <div className="flex items-center gap-2 text-neutral-900 font-medium">
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className="text-primary-600"
+                    />
+                    {new Date(viewingMilestone.dueDate).toLocaleDateString(
+                      "en-US",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-neutral-600 font-medium mb-2 body-small">
+                    Status
+                  </label>
+                  <span
+                    className={`inline-flex px-3 py-1.5 rounded-lg text-sm font-semibold border ${getStatusBadgeColor(
+                      viewingMilestone.status
+                    )}`}
+                  >
+                    {viewingMilestone.status === "in-progress"
+                      ? "In Progress"
+                      : viewingMilestone.status.charAt(0).toUpperCase() +
+                        viewingMilestone.status.slice(1)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-200 px-6 py-4 flex items-center justify-end gap-3">
+              <button
+                onClick={closeViewModal}
+                className="px-5 py-2.5 border border-neutral-200 rounded-lg text-neutral-700 font-medium hover:bg-neutral-100 transition-colors"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  closeViewModal();
+                  openMilestoneModal(viewingMilestone);
+                }}
+                className="btn-primary flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+                Edit Milestone
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
