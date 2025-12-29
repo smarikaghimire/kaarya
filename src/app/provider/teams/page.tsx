@@ -17,6 +17,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 interface TeamMember {
   id: string;
@@ -228,10 +229,13 @@ export default function TeamPage() {
               Manage your team and their assignments
             </p>
           </div>
-          <button className="btn-primary flex items-center gap-2 shadow-lg">
+          <Link
+            href={"/provider/teams/create"}
+            className="btn-primary flex items-center gap-2 shadow-lg"
+          >
             <FontAwesomeIcon icon={faPlus} />
             Add Team Member
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -475,7 +479,8 @@ export default function TeamPage() {
 
                     {openDropdown === member.id && (
                       <div className="absolute right-0 mt-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
-                        <button
+                        <Link
+                          href={"/provider/teams/view"}
                           onClick={() =>
                             handleAction("view", member.id, member.name)
                           }
@@ -486,8 +491,9 @@ export default function TeamPage() {
                             className="text-blue-600 w-4"
                           />
                           View
-                        </button>
-                        <button
+                        </Link>
+                        <Link
+                          href={"/provider/teams/edit"}
                           onClick={() =>
                             handleAction("update", member.id, member.name)
                           }
@@ -498,7 +504,7 @@ export default function TeamPage() {
                             className="text-green-600 w-4"
                           />
                           Update
-                        </button>
+                        </Link>
                         <button
                           onClick={() =>
                             handleAction("delete", member.id, member.name)

@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 // Types
 interface Client {
@@ -236,10 +237,13 @@ export default function ClientsPage() {
               Build lasting relationships with your clients
             </p>
           </div>
-          <button className="btn-primary flex items-center justify-center gap-2 shadow-lg">
+          <Link
+            href={"/provider/clients/create"}
+            className="btn-primary flex items-center justify-center gap-2 shadow-lg"
+          >
             <FontAwesomeIcon icon={faPlus} />
             Add New Client
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -575,7 +579,8 @@ export default function ClientsPage() {
 
                             {openDropdown === client.id && (
                               <div className="absolute right-0 mt-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
-                                <button
+                                <Link
+                                  href={"/provider/clients/view"}
                                   onClick={() =>
                                     handleAction("view", client.id, client.name)
                                   }
@@ -586,8 +591,9 @@ export default function ClientsPage() {
                                     className="text-blue-600 w-4"
                                   />
                                   View Details
-                                </button>
-                                <button
+                                </Link>
+                                <Link
+                                  href={"/provider/clients/edit"}
                                   onClick={() =>
                                     handleAction(
                                       "update",
@@ -602,7 +608,7 @@ export default function ClientsPage() {
                                     className="text-green-600 w-4"
                                   />
                                   Edit Client
-                                </button>
+                                </Link>
                                 <button
                                   onClick={() =>
                                     handleAction(

@@ -450,7 +450,8 @@ export default function ProjectsPage() {
                       </button>
                       {openDropdown === project.id && (
                         <div className="absolute right-0 mt-2 w-48 bg-neutral-0 rounded-lg shadow-lg border border-neutral-200 py-1 z-10">
-                          <button
+                          <Link
+                            href={"/provider/projects/view"}
                             onClick={() =>
                               handleAction("view", project.id, project.name)
                             }
@@ -461,7 +462,7 @@ export default function ProjectsPage() {
                               className="text-blue-600 w-4"
                             />
                             View
-                          </button>
+                          </Link>
                           <button
                             onClick={() =>
                               handleAction("update", project.id, project.name)
