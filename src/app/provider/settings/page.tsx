@@ -108,6 +108,23 @@ export default function SettingsPage() {
   ]);
   const [showPortfolioModal, setShowPortfolioModal] = useState(false);
 
+  // Public Profile state
+  const [profileTitle, setProfileTitle] = useState(
+    "Licensed Master Electrician"
+  );
+  const [profileSlug, setProfileSlug] = useState("john-anderson-electrician");
+  const [aboutParagraphs, setAboutParagraphs] = useState([
+    "With over 15 years of experience in residential and commercial electrical work, I take pride in delivering safe, efficient, and high-quality electrical solutions.",
+  ]);
+  const [heroImageUrl, setHeroImageUrl] = useState("");
+  const [publicServices, setPublicServices] = useState([
+    "Panel Upgrades",
+    "Emergency Repairs",
+    "Smart Home",
+  ]);
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [newService, setNewService] = useState("");
+
   const handleSaveProfile = () => {
     console.log("Saving profile...", {
       fullName,
@@ -171,8 +188,26 @@ export default function SettingsPage() {
     setShowPortfolioModal(false);
   };
 
+  const handleSavePublicProfile = () => {
+    console.log("Saving public profile...");
+    alert("Public profile updated successfully!");
+  };
+
+  const handleAddService = () => {
+    if (newService.trim()) {
+      setPublicServices([...publicServices, newService.trim()]);
+      setNewService("");
+      setShowServiceModal(false);
+    }
+  };
+
+  const handleRemoveService = (index: number) => {
+    setPublicServices(publicServices.filter((_, i) => i !== index));
+  };
+
   const tabs = [
     { id: "profile", label: "Profile", icon: faUser },
+    { id: "public-profile", label: "My Public Profile", icon: faGlobe },
     { id: "business", label: "Business Info", icon: faBriefcase },
     { id: "verification", label: "Verification", icon: faShield },
     { id: "portfolio", label: "Portfolio", icon: faImage },
@@ -362,6 +397,239 @@ export default function SettingsPage() {
                   <button onClick={handleSaveProfile} className="btn-primary">
                     <FontAwesomeIcon icon={faSave} className="mr-2" />
                     Save Changes
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* My Public Profile Tab */}
+            {activeTab === "public-profile" && (
+              <div className="space-y-6">
+                {/* Preview Card */}
+                <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl p-6 text-neutral-0">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h2 className="heading-3 mb-1">Your Public Profile</h2>
+                      <p className="text-neutral-100 text-sm">
+                        This is how clients will see you on the platform
+                      </p>
+                    </div>
+                    <button className="px-4 py-2 bg-neutral-0 text-primary-600 rounded-lg hover:bg-neutral-50 transition-colors font-semibold">
+                      <FontAwesomeIcon icon={faEye} className="mr-2" />
+                      Preview
+                    </button>
+                  </div>
+                  <div className="text-neutral-100 text-sm">
+                    Profile URL: karya.com/provider/{profileSlug}
+                  </div>
+                </div>
+
+                {/* Profile Title & Slug */}
+                <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
+                  <h2 className="heading-3 text-neutral-900 mb-6">
+                    Basic Information
+                  </h2>
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                        Professional Title{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={profileTitle}
+                        onChange={(e) => setProfileTitle(e.target.value)}
+                        placeholder="e.g., Licensed Master Electrician"
+                        className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                        Profile URL Slug <span className="text-red-500">*</span>
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-neutral-500">
+                          karya.com/provider/
+                        </span>
+                        <input
+                          type="text"
+                          value={profileSlug}
+                          onChange={(e) =>
+                            setProfileSlug(
+                              e.target.value.toLowerCase().replace(/\s+/g, "-")
+                            )
+                          }
+                          placeholder="your-name-profession"
+                          className="flex-1 px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                        />
+                      </div>
+                      <p className="text-neutral-500 text-sm mt-1">
+                        Choose a unique URL for your profile (letters, numbers,
+                        and hyphens only)
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                        Hero Banner Image
+                      </label>
+                      <div className="space-y-3">
+                        {heroImageUrl ? (
+                          <div className="relative">
+                            <img
+                              src={heroImageUrl}
+                              alt="Hero banner preview"
+                              className="w-full h-48 object-cover rounded-lg border border-neutral-200"
+                            />
+                            <button
+                              onClick={() => setHeroImageUrl("")}
+                              className="absolute top-2 right-2 p-2 bg-red-600 text-neutral-0 rounded-lg hover:bg-red-700 transition-colors"
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="border-2 border-dashed border-neutral-300 rounded-lg p-8 text-center hover:border-primary-500 transition-colors cursor-pointer">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    setHeroImageUrl(reader.result as string);
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="hidden"
+                              id="hero-image-upload"
+                            />
+                            <label
+                              htmlFor="hero-image-upload"
+                              className="cursor-pointer"
+                            >
+                              <FontAwesomeIcon
+                                icon={faImage}
+                                className="text-4xl text-neutral-400 mb-3"
+                              />
+                              <p className="text-neutral-700 font-medium mb-1">
+                                Click to upload banner image
+                              </p>
+                              <p className="text-neutral-500 text-sm">
+                                PNG, JPG up to 10MB (1200x400px recommended)
+                              </p>
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-neutral-500 text-sm mt-2">
+                        This banner appears at the top of your public profile
+                        page
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* About Me Section */}
+                <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
+                  <h2 className="heading-3 text-neutral-900 mb-6">About Me</h2>
+                  <div className="space-y-4">
+                    {aboutParagraphs.map((paragraph, index) => (
+                      <div key={index}>
+                        <div className="flex items-center justify-between mb-2">
+                          <label className="text-neutral-700 font-semibold body-small">
+                            Paragraph {index + 1}
+                          </label>
+                          {aboutParagraphs.length > 1 && (
+                            <button
+                              onClick={() =>
+                                setAboutParagraphs(
+                                  aboutParagraphs.filter((_, i) => i !== index)
+                                )
+                              }
+                              className="text-red-600 hover:text-red-700 text-sm font-medium"
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="mr-1"
+                              />
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                        <textarea
+                          value={paragraph}
+                          onChange={(e) => {
+                            const newParagraphs = [...aboutParagraphs];
+                            newParagraphs[index] = e.target.value;
+                            setAboutParagraphs(newParagraphs);
+                          }}
+                          rows={4}
+                          className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular resize-none"
+                        />
+                      </div>
+                    ))}
+                    <button
+                      onClick={() =>
+                        setAboutParagraphs([...aboutParagraphs, ""])
+                      }
+                      className="w-full py-3 border-2 border-dashed border-neutral-300 rounded-lg text-neutral-600 hover:border-primary-500 hover:text-primary-600 transition-colors font-medium"
+                    >
+                      <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                      Add Paragraph
+                    </button>
+                  </div>
+                </div>
+
+                {/* Services Offered */}
+                <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="heading-3 text-neutral-900">
+                      Services Offered
+                    </h2>
+                    <button
+                      onClick={() => setShowServiceModal(true)}
+                      className="btn-primary flex items-center gap-2"
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      Add Service
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {publicServices.map((service, index) => (
+                      <div
+                        key={index}
+                        className="px-4 py-2 bg-primary-50 border border-primary-200 text-primary-700 rounded-lg font-medium flex items-center gap-2"
+                      >
+                        <span>{service}</span>
+                        <button
+                          onClick={() => handleRemoveService(index)}
+                          className="hover:text-primary-900 transition-colors"
+                        >
+                          <FontAwesomeIcon icon={faTimes} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  {publicServices.length === 0 && (
+                    <p className="text-neutral-500 text-center py-8">
+                      No services added yet. Click "Add Service" to get started.
+                    </p>
+                  )}
+                </div>
+
+                {/* Save Button */}
+                <div className="flex justify-end gap-3">
+                  <button className="btn-secondary">Cancel</button>
+                  <button
+                    onClick={handleSavePublicProfile}
+                    className="btn-primary"
+                  >
+                    <FontAwesomeIcon icon={faSave} className="mr-2" />
+                    Save Public Profile
                   </button>
                 </div>
               </div>
@@ -1281,6 +1549,68 @@ export default function SettingsPage() {
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Add to Portfolio
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Service Modal */}
+      {showServiceModal && (
+        <div className="fixed inset-0 bg-neutral-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-0 rounded-xl shadow-2xl max-w-md w-full">
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-neutral-200 flex items-center justify-between bg-gradient-to-r from-primary-50 to-secondary-50">
+              <h3 className="heading-4 text-neutral-900">Add Service</h3>
+              <button
+                onClick={() => {
+                  setShowServiceModal(false);
+                  setNewService("");
+                }}
+                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+              >
+                <FontAwesomeIcon icon={faTimes} className="text-neutral-600" />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6">
+              <div>
+                <label className="block text-neutral-700 font-semibold mb-2 body-small">
+                  Service Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={newService}
+                  onChange={(e) => setNewService(e.target.value)}
+                  placeholder="e.g., Panel Upgrades, Emergency Repairs"
+                  className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleAddService();
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowServiceModal(false);
+                  setNewService("");
+                }}
+                className="px-5 py-2.5 border-2 border-neutral-200 rounded-lg text-neutral-700 font-semibold hover:bg-neutral-100 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddService}
+                className="btn-primary flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faPlus} />
+                Add Service
               </button>
             </div>
           </div>
