@@ -537,7 +537,7 @@ export default function DailyUpdatesPage() {
                   setSelectedProject("");
                 }
               }}
-              className="px-6 py-3 border-2 border-neutral-200 text-neutral-700 rounded-lg font-semibold hover:bg-neutral-50 transition-colors"
+              className="px-6 py-3 border-2 border-neutral-200 btn-secondary text-neutral-700 rounded-lg font-semibold hover:bg-neutral-50 transition-colors"
             >
               Discard
             </button>
