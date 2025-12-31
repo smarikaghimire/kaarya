@@ -13,6 +13,7 @@ import {
   faCheckCircle,
   faPenToSquare,
   faEye,
+  faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
@@ -289,6 +290,29 @@ export default function CreateProjectPage() {
                     className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
                   />
                 </div>
+                {/* Project Budget */}
+                <div>
+                  <label
+                    htmlFor="projectBudget"
+                    className="block text-neutral-700 font-semibold mb-2 body-small"
+                  >
+                    <FontAwesomeIcon
+                      icon={faMoneyBill}
+                      className="text-primary-600 mr-2"
+                    />
+                    Project Estimated Budget{" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="clientName"
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="e.g., John Smith"
+                    required
+                    className="w-full px-4 py-3 bg-neutral-0 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all body-regular"
+                  />
+                </div>
 
                 {/* Date Range */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -423,7 +447,7 @@ export default function CreateProjectPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex items-center gap-2 shrink-0">
                         <button
                           type="button"
                           onClick={() => viewMilestone(milestone)}
